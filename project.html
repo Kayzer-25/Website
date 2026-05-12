@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Alptekin Residences – Yeni Alptekin İnşaat</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Space+Grotesk:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="project.css"/>
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <a href="index.html" class="logo">
+      <img src="logo.png" alt="Yeni Alptekin İnşaat" class="logo-mark-img">
+      <div class="logo-text">
+        <span class="logo-main">YENİ ALPTEKİN</span>
+        <span class="logo-sub">İNŞAAT</span>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Ana Sayfa</a></li>
+      <li><a href="index.html#about">Hakkımızda</a></li>
+      <li><a href="index.html#services">Hizmetler</a></li>
+      <li><a href="#plans" class="nav-link-active">Proje</a></li>
+      <li><a href="index.html#contact" class="nav-cta">İletişim</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" id="mobileClose">✕</button>
+  <a href="index.html" class="mobile-link">Ana Sayfa</a>
+  <a href="index.html#about" class="mobile-link">Hakkımızda</a>
+  <a href="index.html#services" class="mobile-link">Hizmetler</a>
+  <a href="#plans" class="mobile-link">Kat Planları</a>
+  <a href="index.html#contact" class="mobile-link mobile-link-cta">İletişim</a>
+</div>
+
+<!-- BÖLÜM 1 · HERO -->
+<section class="ph-hero" id="phHero">
+  <div class="ph-building-wrap" id="phBuildingWrap">
+    <div class="ph-building-art">
+      <div class="pba-sky"></div>
+      <div class="pba-glow"></div>
+      <div class="pba-tower">
+        <div class="pba-windows-grid"></div>
+        <div class="pba-entrance"><div class="pba-door"></div></div>
+      </div>
+      <div class="pba-wing pba-wing-l"></div>
+      <div class="pba-wing pba-wing-r"></div>
+      <div class="pba-ground"></div>
+      <div class="pba-ground-line"></div>
+      <div class="pba-trees">
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
+      <div class="pba-photo-badge">
+        <span>📸</span>Bina Fotoğrafı Yakında Eklenecek
+      </div>
+    </div>
+    <div class="ph-overlay"></div>
+  </div>
+  <div class="ph-content" id="phContent">
+    <div class="ph-eyebrow">
+      <span class="ph-dot"></span>
+      Aktif Proje &nbsp;·&nbsp; Yeni Alptekin İnşaat
+    </div>
+    <h1 class="ph-title">
+      <span class="reveal-line"><span class="reveal-inner" id="phL1">Alptekin</span></span>
+      <span class="reveal-line"><span class="reveal-inner" id="phL2"><span class="gradient-text">Residences</span></span></span>
+    </h1>
+    <p class="ph-desc" id="phDesc">
+      Modern yaşam standartlarını aile sıcaklığıyla buluşturan,
+      özenle tasarlanmış konut projemize hoş geldiniz.
+    </p>
+    <div class="ph-badges" id="phBadges">
+      <div class="ph-badge-item"><div class="pbi-num">8</div><div class="pbi-lbl">Kat</div></div>
+      <div class="ph-badge-item"><div class="pbi-num">48</div><div class="pbi-lbl">Daire</div></div>
+      <div class="ph-badge-item"><div class="pbi-num">2</div><div class="pbi-lbl">Tip</div></div>
+      <div class="ph-badge-item"><div class="pbi-num">A+</div><div class="pbi-lbl">Enerji</div></div>
+    </div>
+  </div>
+  <div class="ph-scroll-cue" id="phScrollCue">
+    <span>Keşfetmek için kaydırın</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- BÖLÜM 2 · BİNA AÇILARI -->
+<section class="views-section" id="viewsSection">
+  <div class="views-hdr">
+    <div class="views-hdr-left">
+      <div class="section-tag">Bina Görünümleri</div>
+    </div>
+    <div class="views-hdr-right">
+      <div class="views-dots" id="viewsDots">
+        <button class="vdot active" data-i="0"></button>
+        <button class="vdot" data-i="1"></button>
+        <button class="vdot" data-i="2"></button>
+        <button class="vdot" data-i="3"></button>
+      </div>
+      <div class="views-counter">
+        <span id="vCurrent">01</span><span class="vc-sep">/</span><span>04</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="views-track" id="viewsTrack">
+
+    <!-- 01 · Ön Cephe -->
+    <div class="view-panel active" data-idx="0">
+      <div class="vp-bg" style="background:linear-gradient(160deg,#0C1A30 0%,#1A2E50 45%,#0A1220 100%)">
+        <img src="images/view-1.jpg" alt="Ön Cephe" class="vp-photo" loading="lazy">
+        <div class="vp-pattern"></div>
+        <div class="vp-art vpa-front">
+          <div class="vpa-building-silhouette"></div>
+          <div class="vpa-label-art">ÖN CEPHE</div>
+        </div>
+      </div>
+      <div class="vp-info">
+        <div class="vpi-num">01</div>
+        <h3 class="vpi-title">Ön Cephe</h3>
+        <p class="vpi-desc">Ana giriş ve sokak cephesi. Yapının kimliğini yansıtan modern cam-alüminyum-doğaltaş kombine kaplama sistemi.</p>
+        <div class="vpi-tags"><span>Cam Cephe</span><span>Doğaltaş</span><span>Bahçeli Giriş</span></div>
+      </div>
+    </div>
+
+    <!-- 02 · Arka Bahçe -->
+    <div class="view-panel" data-idx="1">
+      <div class="vp-bg" style="background:linear-gradient(160deg,#0A1C18 0%,#0E2820 45%,#081410 100%)">
+        <img src="images/view-2.jpg" alt="Arka Bahçe" class="vp-photo" loading="lazy">
+        <div class="vp-pattern"></div>
+        <div class="vp-art vpa-garden">
+          <div class="vpa-garden-art"></div>
+          <div class="vpa-label-art">ARKA BAHÇE</div>
+        </div>
+      </div>
+      <div class="vp-info">
+        <div class="vpi-num">02</div>
+        <h3 class="vpi-title">Arka Bahçe</h3>
+        <p class="vpi-desc">Peyzajlı ortak bahçe alanı. Zemin kat dairelerine ait özel bahçe parselleri ve sosyal teras mevcuttur.</p>
+        <div class="vpi-tags"><span>Peyzajlı Bahçe</span><span>Özel Parsel</span><span>Sosyal Teras</span></div>
+      </div>
+    </div>
+
+    <!-- 03 · Yan Cephe -->
+    <div class="view-panel" data-idx="2">
+      <div class="vp-bg" style="background:linear-gradient(160deg,#1A120A 0%,#2E1E0C 45%,#120C06 100%)">
+        <img src="images/view-3.jpg" alt="Yan Cephe" class="vp-photo" loading="lazy">
+        <div class="vp-pattern"></div>
+        <div class="vp-art vpa-side">
+          <div class="vpa-label-art">YAN CEPHE</div>
+        </div>
+      </div>
+      <div class="vp-info">
+        <div class="vpi-num">03</div>
+        <h3 class="vpi-title">Yan Cephe</h3>
+        <p class="vpi-desc">Yapının yan görünümü. Balkon derinlikleri ve cephe hareketliliği bina kitlesine özgün bir karakter kazandırmaktadır.</p>
+        <div class="vpi-tags"><span>Derin Balkonlar</span><span>Cephe Ritmi</span><span>Isı Yalıtımı</span></div>
+      </div>
+    </div>
+
+    <!-- 04 · Gece Görünümü -->
+    <div class="view-panel" data-idx="3">
+      <div class="vp-bg" style="background:linear-gradient(160deg,#08090B 0%,#101420 45%,#060608 100%)">
+        <img src="images/view-4.jpg" alt="Gece Görünümü" class="vp-photo" loading="lazy">
+        <div class="vp-pattern"></div>
+        <div class="vp-art vpa-night">
+          <div class="vpa-night-glow"></div>
+          <div class="vpa-night-windows"></div>
+          <div class="vpa-label-art">GECE GÖRÜNÜMÜ</div>
+        </div>
+      </div>
+      <div class="vp-info">
+        <div class="vpi-num">04</div>
+        <h3 class="vpi-title">Gece Görünümü</h3>
+        <p class="vpi-desc">Akıllı aydınlatma sistemi ile bina gece de dikkat çekici bir görünüme sahip. LED cephe bandı ile kentsel kimlik güçlendirilmiştir.</p>
+        <div class="vpi-tags"><span>LED Cephe Işığı</span><span>Akıllı Aydınlatma</span><span>Kentsel Tasarım</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="views-progress-bar">
+    <div class="vpb-fill" id="vpbFill"></div>
+  </div>
+</section>
+
+<!-- BÖLÜM 3 · PROJE İSTATİSTİKLERİ -->
+<section class="proj-stats" id="projStats">
+  <div class="container">
+    <div class="ps-grid">
+      <div class="ps-item gs-stat"><div class="ps-icon">🏢</div><div class="ps-num" data-target="8">0</div><div class="ps-lbl">Kat</div></div>
+      <div class="ps-item gs-stat"><div class="ps-icon">🏠</div><div class="ps-num" data-target="48">0</div><div class="ps-lbl">Toplam Daire</div></div>
+      <div class="ps-item gs-stat"><div class="ps-icon">🛏️</div><div class="ps-num" data-target="24">0</div><div class="ps-lbl">Adet 2+1 Daire</div></div>
+      <div class="ps-item gs-stat"><div class="ps-icon">🪴</div><div class="ps-num" data-target="24">0</div><div class="ps-lbl">Adet 1+1 Daire</div></div>
+      <div class="ps-item gs-stat"><div class="ps-icon">🌿</div><div class="ps-num" data-target="2">0</div><div class="ps-lbl">Asansör</div></div>
+      <div class="ps-item gs-stat"><div class="ps-icon">⭐</div><div class="ps-num ps-letter">A+</div><div class="ps-lbl">Enerji Sınıfı</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- BÖLÜM 4 · KONUM & ÇEVRE -->
+<section class="location-section" id="location">
+  <div class="container">
+    <div class="location-intro gs-section-head">
+      <div class="section-tag">Konum</div>
+      <h2 class="section-title">Şehrin Kalbinde<br><span class="gradient-text">Ayrıcalıklı Konum</span></h2>
+      <p class="section-desc">Huzurevleri Mahallesi, Süleyman Demirel Bulvarı üzerinde — Adana'nın en işlek ve değer kazanan aksında.</p>
+    </div>
+
+    <div class="location-grid">
+
+      <!-- Sol: Adres + harita linki -->
+      <div class="location-address-card gs-reveal">
+        <div class="lac-top">
+          <div class="lac-icon">📍</div>
+          <div>
+            <div class="lac-label">Proje Adresi</div>
+            <div class="lac-value">Süleyman Demirel Bulvarı<br>Huzurevleri Mahallesi<br>Çukurova / Adana</div>
+          </div>
+        </div>
+        <div class="lac-tags">
+          <span>İşlek Bulvar Üzeri</span>
+          <span>Merkezi Konum</span>
+          <span>Ulaşım Kolaylığı</span>
+          <span>Yüksek Kira Getirisi</span>
+        </div>
+        <a href="https://maps.google.com/?q=37.052917,35.273027" target="_blank" rel="noopener" class="btn btn-primary lac-map-btn">
+          <span>Google Maps'te Görüntüle</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        </a>
+      </div>
+
+      <!-- Sağ: Yakın kurumlar -->
+      <div class="location-pois gs-reveal">
+        <div class="poi-group">
+          <div class="poi-group-title">🏥 Sağlık</div>
+          <div class="poi-item"><span class="poi-name">Çukurova Devlet Hastanesi</span><span class="poi-dist">~500 m</span></div>
+          <div class="poi-item"><span class="poi-name">Huzurevleri Aile Sağlığı Merkezi</span><span class="poi-dist">~300 m</span></div>
+        </div>
+        <div class="poi-group">
+          <div class="poi-group-title">🎓 Eğitim</div>
+          <div class="poi-item"><span class="poi-name">Eral Okulları (Anaokulu–Lise)</span><span class="poi-dist">~800 m</span></div>
+          <div class="poi-item"><span class="poi-name">Selahaddin Eyyubi İmam Hatip Ortaokulu</span><span class="poi-dist">~600 m</span></div>
+          <div class="poi-item"><span class="poi-name">Çukurova Üniversitesi</span><span class="poi-dist">~3 km</span></div>
+        </div>
+        <div class="poi-group">
+          <div class="poi-group-title">🚇 Ulaşım</div>
+          <div class="poi-item"><span class="poi-name">Huzurevi Metro İstasyonu</span><span class="poi-dist">Yürüme mesafesi</span></div>
+          <div class="poi-item"><span class="poi-name">Mavi Bulvar Metro İstasyonu</span><span class="poi-dist">~1 km</span></div>
+        </div>
+        <div class="poi-group">
+          <div class="poi-group-title">🛍️ Alışveriş & Yaşam</div>
+          <div class="poi-item"><span class="poi-name">Biçer AVM</span><span class="poi-dist">~1.2 km</span></div>
+          <div class="poi-item"><span class="poi-name">BİM Süpermarket</span><span class="poi-dist">~200 m</span></div>
+          <div class="poi-item"><span class="poi-name">Haftalık Pazar Yeri</span><span class="poi-dist">Mahalle içi</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- BÖLÜM 5 · KAT PLANLARI -->
+<section class="plans-section" id="plans">
+  <div class="container">
+    <div class="plans-intro gs-section-head">
+      <div class="section-tag">Kat Planları</div>
+      <h2 class="section-title">Yaşam Alanlarınızı<br><span class="gradient-text">Keşfedin</span></h2>
+      <p class="section-desc">Titizlikle tasarlanmış kat planlarıyla hayalinizdeki daireyi seçin. Her odanın boyutu, ışığı ve yerleşimi konforunuz için optimize edilmiştir.</p>
+    </div>
+  </div>
+
+  <!-- Plan 1 -->
+  <div class="plan-block" id="planBlock1">
+    <div class="container">
+      <div class="pb-layout pb-layout-right">
+        <div class="pb-meta">
+          <div class="pb-eyebrow">01 / 03</div>
+          <h3 class="pb-title">Kat Planı</h3>
+          <p class="pb-desc">Her katta 6 bağımsız daire yer almaktadır. Orta koridordan erişilen planlar simetrik bir yerleşim sunarken, yangın merdiveni ve 2 asansör güvenli dolaşımı sağlamaktadır.</p>
+          <div class="pb-rooms">
+            <div class="pb-room"><span>🏠</span>6 Daire / Kat</div>
+            <div class="pb-room"><span>🛗</span>2 Asansör</div>
+            <div class="pb-room"><span>🚪</span>Geniş Kat Holü</div>
+            <div class="pb-room"><span>🌿</span>Balkonlar</div>
+            <div class="pb-room"><span>🧯</span>Yangın Kaçış Holü</div>
+            <div class="pb-room"><span>🪜</span>Yangın Merdiveni</div>
+          </div>
+          <button class="btn btn-primary zoom-plan magnetic" data-src="plans/plan-1.jpg">
+            <span>Büyük Görüntüle</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg>
+          </button>
+        </div>
+        <div class="pb-image-wrap">
+          <div class="pb-image-inner">
+            <img src="plans/plan-1.jpg" alt="Kat Planı" class="pb-img" loading="lazy"/>
+          </div>
+          <div class="pb-image-label">KAT PLANI</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Plan 2 -->
+  <div class="plan-block plan-block-alt" id="planBlock2">
+    <div class="container">
+      <div class="pb-layout pb-layout-left">
+        <div class="pb-image-wrap">
+          <div class="pb-image-inner">
+            <img src="plans/plan-2.jpg" alt="2+1 Tip Daire" class="pb-img" loading="lazy"/>
+          </div>
+          <div class="pb-image-label">2+1 TİP DAİRE</div>
+        </div>
+        <div class="pb-meta">
+          <div class="pb-eyebrow">02 / 03</div>
+          <h3 class="pb-title">2+1 Tip Daire</h3>
+          <p class="pb-desc">Geniş salon-mutfak alanı, iki bağımsız yatak odası, iki banyo ve iki balkonuyla aileler için ideal konut tipi.</p>
+          <div class="pb-rooms">
+            <div class="pb-room"><span>🛋️</span>Geniş Salon-Mutfak</div>
+            <div class="pb-room"><span>🛏️</span>2 Yatak Odası</div>
+            <div class="pb-room"><span>🚿</span>2 Banyo</div>
+            <div class="pb-room"><span>🌤️</span>2 Balkon</div>
+            <div class="pb-room"><span>🚪</span>Antre-Hol</div>
+          </div>
+          <button class="btn btn-primary zoom-plan magnetic" data-src="plans/plan-2.jpg">
+            <span>Büyük Görüntüle</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Plan 3 -->
+  <div class="plan-block" id="planBlock3">
+    <div class="container">
+      <div class="pb-layout pb-layout-right">
+        <div class="pb-meta">
+          <div class="pb-eyebrow">03 / 03</div>
+          <h3 class="pb-title">1+1 Tip Daire</h3>
+          <p class="pb-desc">Kompakt ve işlevsel tasarımıyla özellikle yatırım ve kiralık kullanım için öne çıkan daire tipi.</p>
+          <div class="pb-rooms">
+            <div class="pb-room"><span>🛋️</span>Açık Salon-Mutfak</div>
+            <div class="pb-room"><span>🛏️</span>Yatak Odası</div>
+            <div class="pb-room"><span>🚿</span>Banyo</div>
+            <div class="pb-room"><span>🌤️</span>Balkon</div>
+          </div>
+          <button class="btn btn-primary zoom-plan magnetic" data-src="plans/plan-3.jpg">
+            <span>Büyük Görüntüle</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg>
+          </button>
+        </div>
+        <div class="pb-image-wrap">
+          <div class="pb-image-inner">
+            <img src="plans/plan-3.jpg" alt="1+1 Tip Daire" class="pb-img" loading="lazy"/>
+          </div>
+          <div class="pb-image-label">1+1 TİP DAİRE</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BÖLÜM 5 · CTA -->
+<section class="proj-cta section" id="projCta">
+  <div class="container">
+    <div class="pcta-inner gs-reveal">
+      <div class="pcta-badge"><span class="ph-dot"></span>Satış Ofisi Açık</div>
+      <h2 class="section-title" style="color:#fff">Dairenizi Şimdi<br><span class="gradient-text">Ayırtın</span></h2>
+      <p class="section-desc" style="color:rgba(255,255,255,.65);max-width:500px;margin:0 auto 40px">Sınırlı sayıda daire mevcuttur. Ücretsiz keşif ve detaylı bilgi için hemen bizimle iletişime geçin.</p>
+      <div class="pcta-btns">
+        <a href="index.html#contact" class="btn btn-primary magnetic">
+          <span>Randevu Al</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="tel:+905551234567" class="btn btn-ghost magnetic">📞 Hemen Ara</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="logo"><img src="logo.png" alt="Yeni Alptekin İnşaat" class="logo-mark-img"><div class="logo-text"><span class="logo-main">YENİ ALPTEKİN</span><span class="logo-sub">İNŞAAT</span></div></a>
+        <p>Geleceği birlikte inşa ediyoruz.</p>
+      </div>
+      <div class="footer-col"><h4>Proje</h4><ul class="footer-links"><li><a href="#phHero">Genel Bakış</a></li><li><a href="#plans">Kat Planları</a></li><li><a href="#projCta">İletişim</a></li></ul></div>
+      <div class="footer-col"><h4>Daire Tipleri</h4><ul class="footer-links"><li><a href="#planBlock1">Kat Planı</a></li><li><a href="#planBlock2">2+1 Tip</a></li><li><a href="#planBlock3">1+1 Tip</a></li></ul></div>
+      <div class="footer-col"><h4>İletişim</h4><ul class="footer-links"><li><a href="tel:+905551234567">+90 (555) 123 45 67</a></li><li><a href="#">info@yenialptekininsaat.com</a></li><li><a href="#">İstanbul, Türkiye</a></li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 <span>Yeni Alptekin İnşaat</span>. Tüm hakları saklıdır.</p>
+      <a href="index.html" style="font-size:13px;color:var(--on-dark-2);text-decoration:none">← Ana Siteye Dön</a>
+    </div>
+  </div>
+</footer>
+
+<!-- LIGHTBOX -->
+<div class="plan-lightbox" id="planLightbox">
+  <button class="lb-close" id="lbClose">✕</button>
+  <div class="lb-hint">Büyütmek için tıklayın · Kapatmak için ESC</div>
+  <div class="lb-inner">
+    <img id="lbImg" src="" alt="Kat Planı"/>
+    <div class="lb-zoom-ctrl">
+      <button id="lbZoomIn">+</button>
+      <button id="lbZoomOut">−</button>
+      <button id="lbZoomReset">⟳</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="project.js"></script>
+</body>
+</html>

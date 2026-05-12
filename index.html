@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Yeni Alptekin İnşaat – Geleceği Birlikte İnşa Ediyoruz</title>
+  <meta name="description" content="Yeni Alptekin İnşaat, konut ve ticari yapı inşaatı, tadilat ve proje yönetimi hizmetleriyle hayallerinizi gerçeğe dönüştürüyor." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ===== INTRO SCREEN ===== -->
+  <div class="intro-screen" id="introScreen">
+    <!-- Arka plan parıltı -->
+    <div class="is-glow"></div>
+
+    <!-- Logo -->
+    <div class="is-logo-wrap" id="isLogo">
+      <img src="logo.png" alt="Alptekin İnşaat" class="is-logo-img">
+    </div>
+
+    <!-- Marka adı -->
+    <div class="is-brand" id="isBrand">
+      <span class="is-name" id="isName">ALPTEKİN</span>
+      <span class="is-sub"  id="isSub">İNŞAAT</span>
+    </div>
+
+    <!-- İnce ayraç çizgisi -->
+    <div class="is-rule" id="isRule"></div>
+
+    <!-- Alt hint -->
+    <div class="is-hint" id="isHint">
+      <span>Keşfetmek için kaydırın</span>
+      <div class="is-hint-arrow">
+        <svg width="12" height="20" viewBox="0 0 12 20" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round">
+          <line x1="6" y1="0" x2="6" y2="14"/>
+          <polyline points="2,10 6,14 10,10"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SCROLL PROGRESS ===== -->
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="#hero" class="logo">
+        <img src="logo.png" alt="Yeni Alptekin İnşaat" class="logo-mark-img">
+        <div class="logo-text">
+          <span class="logo-main">YENİ ALPTEKİN</span>
+          <span class="logo-sub">İNŞAAT</span>
+        </div>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#hero">Ana Sayfa</a></li>
+        <li><a href="#projects">Projelerimiz</a></li>
+        <li><a href="#services">Hizmetlerimiz</a></li>
+        <li><a href="#about">Hakkımızda</a></li>
+        <li><a href="#contact" class="nav-cta">İletişim</a></li>
+      </ul>
+      <button class="hamburger" id="hamburger" aria-label="Menü">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-close" id="mobileClose">✕</button>
+    <a href="#hero" class="mobile-link">Ana Sayfa</a>
+    <a href="#projects" class="mobile-link">Projelerimiz</a>
+    <a href="#services" class="mobile-link">Hizmetlerimiz</a>
+    <a href="#about" class="mobile-link">Hakkımızda</a>
+    <a href="#contact" class="mobile-link mobile-link-cta">İletişim</a>
+  </div>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="hero">
+    <div class="hero-bg">
+      <div class="hero-grid-pattern"></div>
+      <div class="hero-mesh" id="heroMesh"></div>
+      <!-- Arka plan logo — çok hafif, yazıları bozmaz, projeler bölümüne doğru kaybolur -->
+      <div class="hero-bg-logo" id="heroBgLogo">
+        <img src="logo.png" alt="" class="hero-bg-logo-img" id="heroBgLogoImg">
+      </div>
+      <div class="hero-lines">
+        <div class="h-line"></div><div class="h-line"></div>
+        <div class="h-line"></div><div class="h-line"></div>
+        <div class="h-line"></div>
+      </div>
+    </div>
+
+    <div class="hero-content" id="heroContent">
+      <div class="hero-symbol-wrap" id="heroSymbol">
+        <img src="logo.png" alt="" class="hero-symbol-img">
+      </div>
+      <div class="hero-badge" id="heroBadge">
+        <span class="badge-dot"></span>
+        Aile Şirketi &nbsp;·&nbsp; Güven &nbsp;·&nbsp; Kalite
+      </div>
+      <h1 class="hero-title">
+        <span class="reveal-line"><span class="reveal-inner" id="heroLine1">Geleceği</span></span>
+        <span class="reveal-line"><span class="reveal-inner" id="heroLine2"><span class="gradient-text">Birlikte</span></span></span>
+        <span class="reveal-line"><span class="reveal-inner" id="heroLine3">İnşa Ediyoruz</span></span>
+      </h1>
+      <p class="hero-desc" id="heroDesc">
+        Yeni Alptekin İnşaat olarak hayalinizdeki yapıları en yüksek kalite
+        standartlarıyla hayata geçiriyoruz. Her projede güven, şeffaflık ve
+        mükemmellik bizim imzamızdır.
+      </p>
+      <div class="hero-btns" id="heroBtns">
+        <a href="#projects" class="btn btn-primary magnetic">
+          <span>Projelerimizi İncele</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#contact" class="btn btn-ghost magnetic">Ücretsiz Keşif Al</a>
+      </div>
+    </div>
+
+    <div class="hero-scroll" id="heroScroll">
+      <span>Aşağı Kaydır</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ===== MARQUEE TICKER ===== -->
+  <div class="marquee-section">
+    <div class="marquee-track">
+      <div class="marquee-inner">
+        <span>KONUT İNŞAATI</span><span class="mdot">·</span>
+        <span>TİCARİ YAPILAR</span><span class="mdot">·</span>
+        <span>KAT KARŞILIĞI</span><span class="mdot">·</span>
+        <span>ANAHTAR TESLİM</span><span class="mdot">·</span>
+        <span>ALPTEKİN REZİDANS</span><span class="mdot">·</span>
+        <span>ÇUKUROVA / ADANA</span><span class="mdot">·</span>
+        <span>KONUT İNŞAATI</span><span class="mdot">·</span>
+        <span>TİCARİ YAPILAR</span><span class="mdot">·</span>
+        <span>KAT KARŞILIĞI</span><span class="mdot">·</span>
+        <span>ANAHTAR TESLİM</span><span class="mdot">·</span>
+        <span>ALPTEKİN REZİDANS</span><span class="mdot">·</span>
+        <span>ÇUKUROVA / ADANA</span><span class="mdot">·</span>
+      </div>
+      <div class="marquee-inner" aria-hidden="true">
+        <span>KONUT İNŞAATI</span><span class="mdot">·</span>
+        <span>TİCARİ YAPILAR</span><span class="mdot">·</span>
+        <span>KAT KARŞILIĞI</span><span class="mdot">·</span>
+        <span>ANAHTAR TESLİM</span><span class="mdot">·</span>
+        <span>ALPTEKİN REZİDANS</span><span class="mdot">·</span>
+        <span>ÇUKUROVA / ADANA</span><span class="mdot">·</span>
+        <span>KONUT İNŞAATI</span><span class="mdot">·</span>
+        <span>TİCARİ YAPILAR</span><span class="mdot">·</span>
+        <span>KAT KARŞILIĞI</span><span class="mdot">·</span>
+        <span>ANAHTAR TESLİM</span><span class="mdot">·</span>
+        <span>ALPTEKİN REZİDANS</span><span class="mdot">·</span>
+        <span>ÇUKUROVA / ADANA</span><span class="mdot">·</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== PROJECTS ===== -->
+  <section class="projects section" id="projects">
+    <div class="container">
+      <div class="projects-header gs-section-head">
+        <div>
+          <div class="section-tag">Projelerimiz</div>
+          <h2 class="section-title">
+            İşimizin <span class="gradient-text">Kanıtı</span>
+          </h2>
+        </div>
+      </div>
+
+      <!-- ── Öne Çıkan Proje ── -->
+      <a href="project.html" class="featured-project" id="featuredProject">
+        <div class="fp-visual">
+          <div class="fp-bg"></div>
+          <div class="fp-overlay"></div>
+          <div class="fp-badge"><span class="fp-dot"></span>Aktif Proje</div>
+          <div class="fp-building-hint">
+            <span style="font-size:72px;filter:drop-shadow(0 8px 24px rgba(194,136,44,0.4))">🏢</span>
+          </div>
+        </div>
+        <div class="fp-info">
+          <div class="fp-eyebrow">Konut · Adana</div>
+          <h3 class="fp-title">Alptekin Residences</h3>
+          <p class="fp-desc">Modern yaşam standartlarını aile sıcaklığıyla buluşturan, özenle tasarlanmış prestijli konut projemiz. Her detayda kalite, her katta konfor.</p>
+          <div class="fp-specs">
+            <div class="fp-spec"><span>🏢</span>8 Kat</div>
+            <div class="fp-spec"><span>🏠</span>48 Daire</div>
+            <div class="fp-spec"><span>🛏️</span>1+1 &amp; 2+1</div>
+            <div class="fp-spec"><span>⭐</span>A+ Enerji</div>
+            <div class="fp-spec"><span>🛗</span>2 Asansör</div>
+            <div class="fp-spec"><span>📍</span>Adana</div>
+          </div>
+          <div class="fp-cta">
+            <span class="btn btn-primary">
+              <span>Kat Planları &amp; Detayları Gör</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Yakında -->
+      <div class="fp-coming-soon">
+        <div class="fps-label">Yeni projeler yakında eklenecek</div>
+        <div class="fps-dots">
+          <div class="fps-dot-item">🏗️ Proje 2</div>
+          <div class="fps-dot-item">🏗️ Proje 3</div>
+          <div class="fps-dot-item">🏗️ Proje 4</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SERVICES ===== -->
+  <section class="services" id="services">
+
+    <!-- Fixed header bar -->
+    <div class="svc-hdr">
+      <div class="svc-hdr-left">
+        <span class="section-tag" style="display:inline-block">Hizmetlerimiz</span>
+      </div>
+      <div class="svc-hdr-right">
+        <div class="svc-dots" id="svcDots">
+          <button class="sdot active" data-i="0"></button>
+          <button class="sdot" data-i="1"></button>
+          <button class="sdot" data-i="2"></button>
+          <button class="sdot" data-i="3"></button>
+        </div>
+        <div class="svc-counter">
+          <span id="svcCurrent">01</span><span class="vc-sep">/</span><span>04</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Panels -->
+    <div class="svc-track" id="svcTrack">
+
+      <!-- 01 · Konut İnşaatı -->
+      <div class="svc-slide active" data-idx="0">
+        <div class="svc-left">
+          <div class="svc-cat">01 &nbsp;—&nbsp; KONUT</div>
+          <svg class="svc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/>
+            <polyline points="9 21 9 13 15 13 15 21"/>
+          </svg>
+          <h3 class="svc-title">Konut İnşaatı</h3>
+          <p class="svc-desc">Villa, müstakil ev ve apartman projelerini güncel yapı teknolojileri ve kaliteli malzemeyle hayata geçiriyoruz.</p>
+          <ul class="svc-feats">
+            <li class="svc-feat">
+              <svg class="sf-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M3 9.5L12 3l9 6.5V20H4z"/><path d="M9 21v-8h6v8"/></svg>
+              <div class="sf-text"><strong>Villa &amp; Müstakil</strong><span>Özgün mimari ve konforlu yaşam alanları</span></div>
+            </li>
+            <li class="svc-feat">
+              <svg class="sf-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 9h18M9 3v18"/></svg>
+              <div class="sf-text"><strong>Apartman</strong><span>Modern, güvenli ve estetik yaşam alanları</span></div>
+            </li>
+            <li class="svc-feat">
+              <svg class="sf-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="7.5" cy="15.5" r="5.5"/><path d="M21 2l-9.6 9.6M15.5 7.5l3 3"/></svg>
+              <div class="sf-text"><strong>Anahtar Teslim</strong><span>Tüm süreçleri tamamlanmış, kullanıma hazır</span></div>
+            </li>
+          </ul>
+          <button class="svc-btn magnetic" data-service="1">DETAYLI İNCELE &nbsp;→</button>
+        </div>
+        <div class="svc-photo" style="--svc-bg: url('images/svc-1.jpg')"></div>
+      </div>
+
+      <!-- 02 · Ticari Yapılar -->
+      <div class="svc-slide" data-idx="1">
+        <div class="svc-left">
+          <div class="svc-cat">02 &nbsp;—&nbsp; TİCARİ</div>
+          <svg class="svc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="1"/>
+            <path d="M3 9h18M9 3v18M9 9h6M9 13h6M9 17h6"/>
+          </svg>
+          <h3 class="svc-title">Ticari Yapılar</h3>
+          <p class="svc-desc">Ofis binaları, mağazalar ve endüstriyel tesislerin tüm inşaat sürecini profesyonel kadromuzla yönetiyoruz.</p>
+          <ul class="svc-feats">
+            <li class="svc-feat">
+              <svg class="sf-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="2" y="3" width="20" height="18" rx="1"/><path d="M8 7h1M12 7h1M16 7h1M8 12h1M12 12h1M16 12h1M10 17h4"/></svg>
+              <div class="sf-text"><strong>Ofis Binaları</strong><span>Fonksiyonel, modern ve prestijli çalışma alanları</span></div>
+            </li>
+            <li class="svc-feat">
+              <svg class="sf-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M2 20h20M4 20V8l8-5 8 5v12"/><rect x="9" y="14" width="6" height="6"/></svg>
+              <div class="sf-text"><strong>Mağaza &amp; Depo</strong><span>İhtiyacınıza uygun mağaza ve depo çözümleri</span></div>
+            </li>
+            <li class="svc-feat">
+              <svg class="sf-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="2" y="7" width="20" height="14" rx="1"/><path d="M16 7V5a2 2 0 0 0-4 0v2M8 11h8M8 15h5"/></svg>
+              <div class="sf-text"><strong>Endüstriyel</strong><span>Üretim tesisleri ve sanayi yapılarında güvenilir çözümler</span></div>
+            </li>
+          </ul>
+          <button class="svc-btn magnetic" data-service="2">DETAYLI İNCELE &nbsp;→</button>
+        </div>
+        <div class="svc-photo" style="--svc-bg: url('images/svc-2.jpg')"></div>
+      </div>
+
+      <!-- 03 · Kat Karşılığı -->
+      <div class="svc-slide" data-idx="2">
+        <div class="svc-left">
+          <div class="svc-cat">03 &nbsp;—&nbsp; ARSA</div>
+          <svg class="svc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 11l3 3L22 4"/>
+            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+          </svg>
+          <h3 class="svc-title">Kat Karşılığı</h3>
+          <p class="svc-desc">Arsanızı nakit harcamadan en yüksek değere dönüştürün. Şeffaf sözleşme ve hukuki güvenceyle süreç baştan sona bizde.</p>
+          <ul class="svc-feats">
+            <li class="svc-feat">
+              <svg class="sf-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+              <div class="sf-text"><strong>Ücretsiz Değerleme</strong><span>Arsanızı ücretsiz analiz ediyor, en doğru değeri belirliyoruz</span></div>
+            </li>
+            <li class="svc-feat">
+              <svg class="sf-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+              <div class="sf-text"><strong>Yüksek Kat Payı</strong><span>Arsanızdan en yüksek kat payını almanızı sağlıyoruz</span></div>
+            </li>
+            <li class="svc-feat">
+              <svg class="sf-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/></svg>
+              <div class="sf-text"><strong>Noterli Güvence</strong><span>Tüm süreç noter güvencesiyle yasal güvence altındadır</span></div>
+            </li>
+          </ul>
+          <button class="svc-btn magnetic" data-service="3">DETAYLI İNCELE &nbsp;→</button>
+        </div>
+        <div class="svc-photo" style="--svc-bg: url('images/svc-3.jpg')"></div>
+      </div>
+
+      <!-- 04 · Anahtar Teslim -->
+      <div class="svc-slide" data-idx="3">
+        <div class="svc-left">
+          <div class="svc-cat">04 &nbsp;—&nbsp; KOMPLE</div>
+          <svg class="svc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="7.5" cy="15.5" r="5.5"/>
+            <path d="M21 2l-9.6 9.6M15.5 7.5l3 3"/>
+          </svg>
+          <h3 class="svc-title">Anahtar Teslim</h3>
+          <p class="svc-desc">Mimari tasarımdan iç mimari uygulamasına tüm süreci tek noktadan yönetiyoruz. Siz sadece anahtarı teslim alın.</p>
+          <ul class="svc-feats">
+            <li class="svc-feat">
+              <svg class="sf-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+              <div class="sf-text"><strong>Mimari &amp; Statik</strong><span>Estetik ve güvenilir mimari tasarımlar ile statik projeler</span></div>
+            </li>
+            <li class="svc-feat">
+              <svg class="sf-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+              <div class="sf-text"><strong>Mekanik &amp; Elektrik</strong><span>Mekanik ve elektrik sistemlerin projelendirme ve uygulaması</span></div>
+            </li>
+            <li class="svc-feat">
+              <svg class="sf-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+              <div class="sf-text"><strong>İç Mimari</strong><span>Tarzınıza uygun iç mimari tasarım ve uygulama çözümleri</span></div>
+            </li>
+          </ul>
+          <button class="svc-btn magnetic" data-service="4">DETAYLI İNCELE &nbsp;→</button>
+        </div>
+        <div class="svc-photo" style="--svc-bg: url('images/svc-4.jpg')"></div>
+      </div>
+
+    </div>
+
+    <!-- Progress bar -->
+    <div class="svc-progress-bar">
+      <div class="svc-pb-fill" id="svcPbFill"></div>
+    </div>
+
+    <!-- Scroll hint -->
+    <div class="svc-scroll-hint" id="svcScrollHint">
+      <span>Kaydırarak ilerleyin</span>
+      <div class="ssh-arrow">↓</div>
+    </div>
+
+  </section>
+
+  <!-- ===== ABOUT ===== -->
+  <section class="about section" id="about">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-visual gs-reveal" style="--about-bg: url('images/about.jpg')">
+          <div class="about-bg-photo"></div>
+          <div class="about-main-card">
+            <div class="about-card-top">
+              <div class="about-icon-wrap">🏗️</div>
+              <div>
+                <div class="about-card-label">Merkez</div>
+                <div class="about-card-value">Adana, Türkiye</div>
+              </div>
+            </div>
+            <h3 class="about-card-title">Aile Ruhunu Taşıyoruz</h3>
+            <p class="about-card-text">
+              Her tuğlayı, her temeli ailemizin bir parçası gibi özenle
+              döşüyoruz. Çünkü inşa ettiğimiz yapılar sadece binalar değil,
+              insanların hayatlarının sahnesini oluşturuyor.
+            </p>
+            <div class="about-card-tags">
+              <span class="tag">Konut</span>
+              <span class="tag">Ticari</span>
+              <span class="tag">Kat Karşılığı</span>
+              <span class="tag">Anahtar Teslim</span>
+            </div>
+          </div>
+          <div class="about-float-card">
+            <div class="float-icon">🏆</div>
+            <div class="float-content">
+              <div class="float-number">5 Yıl</div>
+              <div class="float-label">Sektör Deneyimi</div>
+            </div>
+          </div>
+          <div class="about-float-card-2">
+            <div class="float-dot active"></div>
+            <span>Aktif Projeler</span>
+            <strong>1 Adet</strong>
+          </div>
+        </div>
+
+        <div class="about-content gs-reveal">
+          <div class="section-tag">Hakkımızda</div>
+          <h2 class="section-title">
+            Küçük Bir Ailede<br>
+            <span class="gradient-text">Büyük Hayaller</span>
+          </h2>
+          <p class="section-desc">
+            Yeni Alptekin İnşaat, köklü bir ailenin birikimi ve genç neslin
+            dinamizmiyle kurulmuş bir inşaat şirketidir. Sektörde fark yaratan
+            projelerle büyük bir geleceğe yürüyoruz.
+          </p>
+          <div class="about-values">
+            <div class="value-item gs-value">
+              <div class="value-icon">🤝</div>
+              <div class="value-text">
+                <h4>Güven ve Şeffaflık</h4>
+                <p>Her süreçte müşterilerimizle açık iletişim kurarak güveni en üste taşıyoruz.</p>
+              </div>
+            </div>
+            <div class="value-item gs-value">
+              <div class="value-icon">⚡</div>
+              <div class="value-text">
+                <h4>Zamanında Teslimat</h4>
+                <p>Söz verdiğimiz tarihlere uyarak projeleri eksiksiz teslim etmeyi taahhüt ediyoruz.</p>
+              </div>
+            </div>
+            <div class="value-item gs-value">
+              <div class="value-icon">💎</div>
+              <div class="value-text">
+                <h4>Kaliteden Ödün Vermemek</h4>
+                <p>En kaliteli malzeme ve en deneyimli ustaları bir araya getiriyoruz.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CONTACT ===== -->
+  <section class="contact section" id="contact">
+    <div class="container">
+      <div class="contact-header gs-section-head">
+        <div class="section-tag">İletişim</div>
+        <h2 class="section-title">
+          Projenizi Konuşalım<br>
+          <span class="gradient-text">Birlikte Planlayalım</span>
+        </h2>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-info gs-reveal">
+          <p class="contact-intro">Projeniz hakkında ücretsiz keşif randevusu alın.</p>
+          <div class="contact-items">
+            <div class="contact-item"><div class="contact-icon">📞</div><div><div class="contact-item-label">Telefon</div><div class="contact-item-value">+90 (555) 123 45 67</div></div></div>
+            <div class="contact-item"><div class="contact-icon">✉️</div><div><div class="contact-item-label">E-posta</div><div class="contact-item-value">info@yenialptekininsaat.com</div></div></div>
+            <div class="contact-item"><div class="contact-icon">📍</div><div><div class="contact-item-label">Adres</div><div class="contact-item-value">Huzurevleri Mah. Süleyman Demirel Bulvarı, Çukurova / Adana</div></div></div>
+            <div class="contact-item"><div class="contact-icon">🕐</div><div><div class="contact-item-label">Çalışma Saatleri</div><div class="contact-item-value">Pzt – Cmt: 08:00 – 18:00</div></div></div>
+          </div>
+          <div class="contact-social">
+            <a href="#" class="social-btn">Instagram</a>
+            <a href="#" class="social-btn">LinkedIn</a>
+            <a href="#" class="social-btn">WhatsApp</a>
+          </div>
+        </div>
+        <div class="contact-form-wrap gs-reveal">
+          <form class="contact-form" id="contactForm">
+            <div class="form-row">
+              <div class="form-group"><label class="form-label">Ad Soyad</label><input type="text" class="form-input" placeholder="Adınız Soyadınız" required /></div>
+              <div class="form-group"><label class="form-label">Telefon</label><input type="tel" class="form-input" placeholder="0555 000 00 00" /></div>
+            </div>
+            <div class="form-group"><label class="form-label">E-posta</label><input type="email" class="form-input" placeholder="ornek@email.com" required /></div>
+            <div class="form-group"><label class="form-label">Hizmet Türü</label>
+              <select class="form-input">
+                <option value="">Hizmet Seçin</option>
+                <option>Konut İnşaatı</option>
+                <option>Ticari Yapılar</option>
+                <option>Kat Karşılığı</option>
+                <option>Anahtar Teslim</option>
+                <option>Diğer</option>
+              </select>
+            </div>
+            <div class="form-group"><label class="form-label">Projeniz Hakkında</label><textarea class="form-input" placeholder="Projenizi kısaca anlatın..."></textarea></div>
+            <button type="submit" class="btn btn-primary btn-full magnetic">
+              <span>Mesaj Gönder</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+            <div class="form-success" id="formSuccess">✅ Mesajınız iletildi! En kısa sürede dönüş yapacağız.</div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="#hero" class="logo"><img src="logo.png" alt="Yeni Alptekin İnşaat" class="logo-mark-img"><div class="logo-text"><span class="logo-main">YENİ ALPTEKİN</span><span class="logo-sub">İNŞAAT</span></div></a>
+          <p>Geleceği birlikte inşa ediyoruz. Kalite, güven ve aile değerleriyle her projede yanınızdayız.</p>
+        </div>
+        <div class="footer-col"><h4>Hızlı Bağlantılar</h4><ul class="footer-links"><li><a href="#hero">Ana Sayfa</a></li><li><a href="#projects">Projelerimiz</a></li><li><a href="#services">Hizmetlerimiz</a></li><li><a href="#about">Hakkımızda</a></li><li><a href="#contact">İletişim</a></li></ul></div>
+        <div class="footer-col"><h4>Hizmetlerimiz</h4><ul class="footer-links"><li><a href="#services">Konut İnşaatı</a></li><li><a href="#services">Ticari Yapılar</a></li><li><a href="#services">Kat Karşılığı</a></li><li><a href="#services">Anahtar Teslim</a></li></ul></div>
+        <div class="footer-col"><h4>İletişim</h4><ul class="footer-links"><li><a href="tel:+905551234567">+90 (555) 123 45 67</a></li><li><a href="#">info@yenialptekininsaat.com</a></li><li><a href="#">Çukurova / Adana</a></li><li><a href="#">Pzt – Cmt: 08:00–18:00</a></li></ul></div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 <span>Yeni Alptekin İnşaat</span>. Tüm hakları saklıdır.</p>
+        <p>Kalite ile inşa edildi ❤️</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== SERVICE DETAIL MODAL ===== -->
+  <div class="svc-overlay" id="svcOverlay">
+    <div class="svc-slide" id="svcPanel">
+      <button class="svc-close" id="svcClose">✕</button>
+
+      <!-- Sol: Görsel Panel -->
+      <div class="svc-panel-visual" id="svcPanelVisual">
+        <div class="spv-bg" id="spvBg"></div>
+        <div class="spv-rings">
+          <div class="spv-ring r1"></div>
+          <div class="spv-ring r2"></div>
+          <div class="spv-ring r3"></div>
+        </div>
+        <div class="spv-content">
+          <div class="spv-num" id="spvNum">01</div>
+          <span class="spv-icon" id="spvIcon">🏠</span>
+          <div class="spv-badge" id="spvBadge">Konut</div>
+          <div class="spv-process-label">Süreç Adımları</div>
+          <div class="spv-process" id="spvProcess"></div>
+        </div>
+      </div>
+
+      <!-- Sağ: İçerik -->
+      <div class="svc-panel-content">
+        <div class="spc-eyebrow">— Hizmetimiz</div>
+        <h2 class="spc-title" id="spcTitle"></h2>
+        <p class="spc-tagline" id="spcTagline"></p>
+        <p class="spc-desc" id="spcDesc"></p>
+        <div class="spc-feats-label">Kapsam &amp; Detaylar</div>
+        <div class="spc-feats" id="spcFeats"></div>
+        <a href="#contact" class="btn btn-primary spc-cta" id="spcCta">Teklif &amp; Görüşme Talep Et →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== PROJECT MODAL ===== -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal" id="modal">
+      <button class="modal-close" id="modalClose">✕</button>
+      <div class="modal-visual" id="modalVisual">
+        <div class="modal-visual-bg"></div>
+        <div class="modal-visual-shapes"><div class="mv-shape"></div><div class="mv-shape"></div><div class="mv-shape"></div></div>
+        <div class="modal-visual-glow"></div>
+        <div class="modal-visual-content">
+          <span class="modal-visual-icon" id="modalIcon">🏡</span>
+          <span class="modal-visual-tag" id="modalTag">Konut</span>
+        </div>
+      </div>
+      <div class="modal-content">
+        <div class="modal-specs" id="modalSpecs"></div>
+        <h2 class="modal-title" id="modalTitle"></h2>
+        <p class="modal-desc" id="modalDesc"></p>
+        <div class="modal-features-title">Proje Detayları</div>
+        <div class="modal-features" id="modalFeatures"></div>
+        <a href="#contact" class="btn btn-navy" id="modalCta">Bu Projeyi Görüşelim →</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
