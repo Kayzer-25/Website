@@ -606,21 +606,76 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 
   /* ── CONTACT FORM ── */
-  const form = document.getElementById('contactForm');
-  const successMsg = document.getElementById('formSuccess');
-  if (form) {
-    form.addEventListener('submit', e => {
+  const form        = document.getElementById('contactForm');
+  const successMsg  = document.getElementById('formSuccess');
+  const errorMsg    = document.getElementById('formError');
+  const submitBtn   = document.getElementById('formSubmitBtn');
+
+  if (form && submitBtn) {
+    const btnLabel = submitBtn.querySelector('.btn-label');
+    let isSubmitting = false;
+    let feedbackTimer = null;
+
+    /* Feedback gösterme yardımcısı — null-safe, çakışmasız */
+    const showFeedback = (el, duration = 6000) => {
+      if (!el) return;
+      successMsg?.classList.remove('show');
+      errorMsg?.classList.remove('show');
+      clearTimeout(feedbackTimer);
+      requestAnimationFrame(() => el.classList.add('show'));
+      feedbackTimer = setTimeout(() => el.classList.remove('show'), duration);
+    };
+
+    form.addEventListener('submit', async e => {
       e.preventDefault();
-      const btn = form.querySelector('.btn-primary');
-      btn.innerHTML = '<span>Gönderiliyor...</span>';
-      btn.disabled = true;
-      setTimeout(() => {
-        form.reset();
-        btn.innerHTML = '<span>Mesaj Gönder</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
-        btn.disabled = false;
-        successMsg.classList.add('show');
-        setTimeout(() => successMsg.classList.remove('show'), 5000);
-      }, 1200);
+      if (isSubmitting) return; /* race condition guard */
+
+      /* HTML5 validation */
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      isSubmitting = true;
+      submitBtn.classList.add('is-loading');
+      submitBtn.disabled = true;
+      if (btnLabel) btnLabel.textContent = 'Gönderiliyor...';
+
+      try {
+        const formData = new FormData(form);
+        const accessKey = formData.get('access_key');
+
+        let ok = false;
+
+        /* Web3Forms entegrasyonu — access key set edilmişse gerçek gönderim yap */
+        if (accessKey && accessKey !== 'YOUR_WEB3FORMS_ACCESS_KEY') {
+          const res = await fetch('https://api.web3forms.com/submit', {
+            method: 'POST',
+            body: formData,
+          });
+          const data = await res.json();
+          ok = !!data.success;
+        } else {
+          /* Geliştirme modu — fake delay (access key girilene kadar) */
+          await new Promise(r => setTimeout(r, 900));
+          ok = true;
+        }
+
+        if (ok) {
+          form.reset();
+          showFeedback(successMsg);
+        } else {
+          showFeedback(errorMsg);
+        }
+      } catch (err) {
+        console.error('[contact form] gönderim hatası:', err);
+        showFeedback(errorMsg);
+      } finally {
+        isSubmitting = false;
+        submitBtn.classList.remove('is-loading');
+        submitBtn.disabled = false;
+        if (btnLabel) btnLabel.textContent = 'Mesaj Gönder';
+      }
     });
   }
 

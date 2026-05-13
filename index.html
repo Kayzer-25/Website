@@ -536,14 +536,20 @@
           </div>
         </div>
         <div class="contact-form-wrap gs-reveal">
-          <form class="contact-form" id="contactForm">
+          <form class="contact-form" id="contactForm" novalidate>
+            <!-- Web3Forms access key — web3forms.com'dan ücretsiz alınır, info e-postana mesaj gönderir -->
+            <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY">
+            <input type="hidden" name="subject" value="Yeni İletişim Formu — Alptekin İnşaat">
+            <input type="hidden" name="from_name" value="Alptekin İnşaat Sitesi">
+            <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">
+
             <div class="form-row">
-              <div class="form-group floating"><input type="text" class="form-input" placeholder=" " required /><label class="form-label">Ad Soyad</label></div>
-              <div class="form-group floating"><input type="tel" class="form-input" placeholder=" " /><label class="form-label">Telefon</label></div>
+              <div class="form-group floating"><input type="text" name="name" class="form-input" placeholder=" " required /><label class="form-label">Ad Soyad</label></div>
+              <div class="form-group floating"><input type="tel" name="phone" class="form-input" placeholder=" " /><label class="form-label">Telefon</label></div>
             </div>
-            <div class="form-group floating"><input type="email" class="form-input" placeholder=" " required /><label class="form-label">E-posta</label></div>
+            <div class="form-group floating"><input type="email" name="email" class="form-input" placeholder=" " required /><label class="form-label">E-posta</label></div>
             <div class="form-group form-group-select"><label class="form-label form-label-static">Hizmet Türü</label>
-              <select class="form-input">
+              <select class="form-input" name="service">
                 <option value="">Hizmet Seçin</option>
                 <option>Konut İnşaatı</option>
                 <option>Ticari Yapılar</option>
@@ -552,12 +558,19 @@
                 <option>Diğer</option>
               </select>
             </div>
-            <div class="form-group floating"><textarea class="form-input" placeholder=" "></textarea><label class="form-label">Projeniz Hakkında</label></div>
-            <button type="submit" class="btn btn-primary btn-full magnetic">
-              <span>Mesaj Gönder</span>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            <div class="form-group floating"><textarea class="form-input" name="message" placeholder=" "></textarea><label class="form-label">Projeniz Hakkında</label></div>
+            <button type="submit" class="btn btn-primary btn-full magnetic" id="formSubmitBtn">
+              <span class="btn-label">Mesaj Gönder</span>
+              <svg class="btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </button>
-            <div class="form-success" id="formSuccess">✅ Mesajınız iletildi! En kısa sürede dönüş yapacağız.</div>
+            <div class="form-feedback form-success" id="formSuccess">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+              <span>Mesajınız iletildi! En kısa sürede dönüş yapacağız.</span>
+            </div>
+            <div class="form-feedback form-error" id="formError">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              <span>Mesaj iletilemedi. Lütfen tekrar deneyin veya bize doğrudan ulaşın.</span>
+            </div>
           </form>
         </div>
       </div>
