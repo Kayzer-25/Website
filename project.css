@@ -323,10 +323,19 @@
 .plans-section { background: var(--bg); }
 .plans-intro { text-align: center; padding: 120px 28px 80px; max-width: 700px; margin: 0 auto; }
 .plans-intro .section-desc { margin: 0 auto; }
-.plan-block { padding: 100px 0; position: relative; overflow: hidden; }
+.plan-block { padding: 80px 0; position: relative; overflow: hidden; }
 .plan-block-alt { background: var(--bg-cream); }
-.pb-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+.pb-layout {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: 64px;
+  align-items: center;
+  max-width: 1150px;
+  margin: 0 auto;
+}
 .pb-layout-left .pb-image-wrap { order: -1; }
+/* Görsel kutusunu makul boyutta tut — çok büyük durmasın */
+.pb-image-wrap { max-width: 440px; margin: 0 auto; width: 100%; }
 .pb-eyebrow { font-size: 12px; font-weight: 700; color: var(--gold); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 14px; }
 .pb-title { font-family: var(--font-display, 'DM Serif Display', serif); font-size: clamp(34px, 4vw, 54px); font-weight: 400; letter-spacing: -1.5px; line-height: 1.05; margin-bottom: 20px; color: var(--text); }
 .pb-desc { font-size: 16px; color: var(--text-2); line-height: 1.78; margin-bottom: 28px; }
@@ -340,11 +349,20 @@
 .pb-room span { font-size: 18px; flex-shrink: 0; }
 .pb-image-wrap { position: relative; will-change: transform; }
 .pb-image-inner {
-  border-radius: 20px; overflow: hidden;
-  box-shadow: 0 24px 80px rgba(16,13,9,0.15), 0 0 0 1px rgba(16,13,9,0.06);
+  border-radius: 16px; overflow: hidden;
+  box-shadow: 0 16px 48px rgba(16,13,9,0.12), 0 0 0 1px rgba(16,13,9,0.06);
   background: #f5f0e8;
+  max-height: 540px;
+  display: flex; align-items: center; justify-content: center;
 }
-.pb-img { width: 100%; display: block; border-radius: 20px; transition: transform .6s ease; }
+.pb-img {
+  width: 100%; height: auto;
+  max-height: 540px;
+  object-fit: contain;
+  display: block; border-radius: 16px;
+  transition: transform .6s ease;
+  background: #fff;
+}
 .pb-image-wrap:hover .pb-img { transform: scale(1.02); }
 .pb-image-label {
   position: absolute; bottom: -14px; left: 50%; transform: translateX(-50%);
@@ -383,11 +401,26 @@
   position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%);
   font-size: 12px; color: rgba(255,255,255,0.3); letter-spacing: 1px; pointer-events: none;
 }
-.lb-inner { position: relative; max-width: 90vw; max-height: 90vh; display: flex; align-items: center; justify-content: center; }
+.lb-inner {
+  position: relative;
+  width: min(92vw, 1200px);
+  height: min(82vh, 900px);
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
 #lbImg {
-  max-width: 100%; max-height: 85vh; object-fit: contain;
-  border-radius: 12px; box-shadow: 0 32px 100px rgba(0,0,0,0.6);
-  transform-origin: center; cursor: zoom-in; transition: transform .3s ease; user-select: none;
+  max-width: 100%; max-height: 100%;
+  width: auto; height: auto;
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 32px 100px rgba(0,0,0,0.6);
+  transform-origin: center;
+  cursor: zoom-in;
+  user-select: none;
+  -webkit-user-drag: none;
+  /* GSAP'in transform'larıyla çakışmasın diye CSS transition'ı kaldırıldı */
+  display: block;
+  background: #fff;
 }
 .lb-zoom-ctrl { position: absolute; bottom: -52px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; }
 .lb-zoom-ctrl button {

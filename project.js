@@ -343,54 +343,152 @@ window.addEventListener('DOMContentLoaded', () => {
     gsap.ticker.add(() => gsap.set(glow, { left: mx, top: my }));
   }
 
-  /* ── PLAN LIGHTBOX ── */
+  /* ── PLAN LIGHTBOX (zoom + pan) ── */
   const lightbox    = document.getElementById('planLightbox');
   const lbImg       = document.getElementById('lbImg');
   const lbClose     = document.getElementById('lbClose');
   const lbZoomIn    = document.getElementById('lbZoomIn');
   const lbZoomOut   = document.getElementById('lbZoomOut');
   const lbZoomReset = document.getElementById('lbZoomReset');
+
   let lbScale = 1;
+  let lbX = 0, lbY = 0;          // pan offset
+  let lbDragging = false;
+  let lbDragMoved = false;       // gerçek bir drag mıydı?
+  let lbStartX = 0, lbStartY = 0;
+  let lbOrigX = 0, lbOrigY = 0;
+
+  function applyLbTransform(animated = true) {
+    if (animated) {
+      gsap.to(lbImg, { scale: lbScale, x: lbX, y: lbY, duration: .3, ease: 'power2.out' });
+    } else {
+      gsap.set(lbImg, { scale: lbScale, x: lbX, y: lbY });
+    }
+    /* İmleç sinyali: zoom'da grab, sürüklerken grabbing */
+    lbImg.style.cursor = lbScale > 1 ? (lbDragging ? 'grabbing' : 'grab') : 'zoom-in';
+  }
 
   function setLbScale(s) {
+    const prev = lbScale;
     lbScale = Math.max(.5, Math.min(4, s));
-    gsap.to(lbImg, { scale: lbScale, duration: .3, ease: 'power2.out' });
-    lbImg.style.cursor = lbScale < 3.5 ? 'zoom-in' : 'zoom-out';
+    /* Eğer küçültüp 1'in altına döndüysek pan'ı sıfırla */
+    if (lbScale <= 1) { lbX = 0; lbY = 0; }
+    applyLbTransform(true);
+  }
+
+  function openLightbox(src) {
+    if (!lbImg || !lightbox) return;
+    lbImg.src = src;
+    lbScale = 1; lbX = 0; lbY = 0;
+    gsap.set(lbImg, { scale: 1, x: 0, y: 0 });
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    gsap.from(lbImg, { scale: .85, opacity: 0, duration: .4, ease: 'back.out(1.4)' });
+    lbImg.style.cursor = 'zoom-in';
   }
 
   document.querySelectorAll('.zoom-plan').forEach(btn => {
-    btn.addEventListener('click', () => {
-      lbImg.src = btn.dataset.src;
-      lbScale = 1;
-      gsap.set(lbImg, { scale: 1 });
-      lightbox.classList.add('open');
-      document.body.style.overflow = 'hidden';
-      gsap.from(lbImg, { scale: .8, opacity: 0, duration: .45, ease: 'back.out(1.5)' });
-    });
+    btn.addEventListener('click', () => openLightbox(btn.dataset.src));
   });
+  /* Mobil bina görünümleri tıklaması (varsa) buradan da kullanır */
+  window._openLightbox = openLightbox;
 
   function closeLightbox() {
+    if (!lbImg) return;
     gsap.to(lbImg, {
-      scale: .85, opacity: 0, duration: .3, ease: 'power2.in',
+      scale: .85, opacity: 0, x: 0, y: 0, duration: .3, ease: 'power2.in',
       onComplete: () => {
         lightbox.classList.remove('open');
         document.body.style.overflow = '';
         lbImg.src = '';
+        lbScale = 1; lbX = 0; lbY = 0;
         gsap.set(lbImg, { clearProps: 'all' });
       }
     });
   }
 
   lbClose?.addEventListener('click', closeLightbox);
-  lightbox?.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+  lightbox?.addEventListener('click', e => {
+    /* Arka plana tıklayınca kapat — ama image üzerine basıp drag yaptıysa kapatma */
+    if (e.target === lightbox && !lbDragMoved) closeLightbox();
+  });
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
-  lbImg?.addEventListener('click', () => setLbScale(lbScale < 2 ? 2 : lbScale < 3 ? 3 : 1));
+
+  /* Tek tık: zoom seviyesini döndür (drag yoksa) */
+  lbImg?.addEventListener('click', e => {
+    if (lbDragMoved) { lbDragMoved = false; return; } /* drag idi, click sayma */
+    setLbScale(lbScale < 1.8 ? 2 : lbScale < 3 ? 3 : 1);
+  });
+
   lbZoomIn?.addEventListener('click',    () => setLbScale(lbScale + .5));
   lbZoomOut?.addEventListener('click',   () => setLbScale(lbScale - .5));
-  lbZoomReset?.addEventListener('click', () => setLbScale(1));
+  lbZoomReset?.addEventListener('click', () => { lbScale = 1; lbX = 0; lbY = 0; applyLbTransform(true); });
+
+  /* Mouse wheel zoom — imleç pozisyonuna doğru */
   lbImg?.addEventListener('wheel', e => {
     e.preventDefault();
-    setLbScale(lbScale + (e.deltaY < 0 ? .2 : -.2));
+    setLbScale(lbScale + (e.deltaY < 0 ? .25 : -.25));
+  }, { passive: false });
+
+  /* ── PAN — mouse sürükle ── */
+  lbImg?.addEventListener('mousedown', e => {
+    if (lbScale <= 1) return; /* zoom yapılmamışsa pan yok */
+    e.preventDefault();
+    lbDragging = true; lbDragMoved = false;
+    lbStartX = e.clientX; lbStartY = e.clientY;
+    lbOrigX = lbX; lbOrigY = lbY;
+    lbImg.style.cursor = 'grabbing';
+  });
+  document.addEventListener('mousemove', e => {
+    if (!lbDragging) return;
+    const dx = e.clientX - lbStartX;
+    const dy = e.clientY - lbStartY;
+    if (Math.abs(dx) > 3 || Math.abs(dy) > 3) lbDragMoved = true;
+    lbX = lbOrigX + dx;
+    lbY = lbOrigY + dy;
+    applyLbTransform(false);
+  });
+  document.addEventListener('mouseup', () => {
+    if (!lbDragging) return;
+    lbDragging = false;
+    if (lbImg) lbImg.style.cursor = lbScale > 1 ? 'grab' : 'zoom-in';
+  });
+
+  /* ── PAN — touch (mobil iki parmak yakınlaştırma için pinch-zoom) ── */
+  let touchStartDistance = 0;
+  let touchStartScale = 1;
+  let touchPanStartX = 0, touchPanStartY = 0;
+  let touchOrigX = 0, touchOrigY = 0;
+
+  lbImg?.addEventListener('touchstart', e => {
+    if (e.touches.length === 2) {
+      /* Pinch */
+      const [a, b] = e.touches;
+      touchStartDistance = Math.hypot(b.clientX - a.clientX, b.clientY - a.clientY);
+      touchStartScale = lbScale;
+    } else if (e.touches.length === 1 && lbScale > 1) {
+      /* Pan */
+      touchPanStartX = e.touches[0].clientX;
+      touchPanStartY = e.touches[0].clientY;
+      touchOrigX = lbX; touchOrigY = lbY;
+    }
+  }, { passive: true });
+
+  lbImg?.addEventListener('touchmove', e => {
+    if (e.touches.length === 2 && touchStartDistance > 0) {
+      e.preventDefault();
+      const [a, b] = e.touches;
+      const d = Math.hypot(b.clientX - a.clientX, b.clientY - a.clientY);
+      const newScale = touchStartScale * (d / touchStartDistance);
+      lbScale = Math.max(.5, Math.min(4, newScale));
+      if (lbScale <= 1) { lbX = 0; lbY = 0; }
+      applyLbTransform(false);
+    } else if (e.touches.length === 1 && lbScale > 1) {
+      e.preventDefault();
+      lbX = touchOrigX + (e.touches[0].clientX - touchPanStartX);
+      lbY = touchOrigY + (e.touches[0].clientY - touchPanStartY);
+      applyLbTransform(false);
+    }
   }, { passive: false });
 
 });
