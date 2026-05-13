@@ -421,3 +421,78 @@
   .pcta-btns { flex-direction: column; align-items: stretch; }
   .pcta-btns .btn { justify-content: center; }
 }
+/* ============================================================
+   PROJECT.HTML — Mobil UX İyileştirmeleri
+   ============================================================ */
+@media (max-width: 768px) {
+  /* Project hero kompakt */
+  .ph-hero { min-height: 520px; padding: 80px 20px 60px; }
+  .ph-title { font-size: clamp(34px, 9vw, 52px); line-height: 1.06; }
+  .ph-eyebrow { font-size: 10.5px; letter-spacing: 2.4px; }
+  .ph-badges { gap: 8px; flex-direction: column; align-items: stretch; }
+  .ph-badge-item {
+    padding: 12px 16px;
+    flex-direction: row; justify-content: space-between;
+    text-align: left;
+  }
+  .pbi-num { font-size: 22px; }
+  .pbi-label { font-size: 11px; }
+
+  /* Views carousel — info panel daha okunaklı */
+  .view-panel, .svc-slide { height: 100vh; height: 100dvh; }
+  .vp-info {
+    bottom: 100px !important; /* mobile-action-bar üstünde kalsın */
+    left: 16px; right: 16px;
+    padding: 18px 18px !important;
+    max-width: 100% !important;
+    border-radius: 12px;
+  }
+  .vp-info .vpi-title { font-size: 22px !important; line-height: 1.15; }
+  .vp-info .vpi-desc { font-size: 13px; line-height: 1.55; }
+  .views-hdr { padding: 16px 18px !important; }
+  .views-counter { font-size: 12px; }
+  .vh-dots { gap: 6px; }
+  .vh-dot { width: 24px; height: 3px; }
+
+  /* Plan blocks — kompakt + okunabilir */
+  .plan-block { padding: 64px 0; }
+  .plans-intro { padding: 80px 20px 56px; }
+  .pb-layout { gap: 36px; }
+  .pb-title { font-size: clamp(28px, 7vw, 38px); margin-bottom: 14px; }
+  .pb-desc { font-size: 15px; line-height: 1.65; margin-bottom: 22px; }
+  .pb-image-inner { border-radius: 14px; }
+  .pb-img { border-radius: 14px; }
+  .pb-image-label { font-size: 10px; padding: 7px 16px; letter-spacing: 2px; bottom: -12px; }
+  .pb-room { padding: 12px 14px; font-size: 13.5px; min-height: 44px; }
+
+  /* Project specs */
+  .ps-grid { grid-template-columns: 1fr 1fr; }
+  .ps-item { padding: 24px 14px; min-height: 110px; }
+  .ps-num { font-size: 30px !important; }
+  .ps-label { font-size: 11px; }
+
+  /* Project CTA */
+  .proj-cta { padding: 56px 0; }
+  .pcta-inner { padding: 24px 20px 0; }
+  .pcta-btns .btn { width: 100%; min-height: 50px; }
+
+  /* Lightbox mobile-friendly */
+  .plan-lightbox { padding: 16px; }
+  .lb-close {
+    top: 12px; right: 12px;
+    width: 48px; height: 48px;
+  }
+  .lb-hint { font-size: 11px; bottom: 100px; }
+  .lb-zoom-ctrl { bottom: 90px; }
+
+  /* Location section */
+  .location-block { padding: 24px 20px; border-radius: 16px; }
+  .location-block h3 { font-size: 20px; }
+  .location-block p { font-size: 14.5px; line-height: 1.65; }
+}
+
+@media (max-width: 380px) {
+  .ph-title { font-size: clamp(30px, 9vw, 42px); }
+  .pb-title { font-size: clamp(24px, 7.5vw, 32px); }
+  .pcta-btns .btn { font-size: 13px; padding: 12px 16px; }
+}

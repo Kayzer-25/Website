@@ -1621,6 +1621,56 @@ select.form-input { cursor: pointer; }
 }
 
 /* ============================================================
+   MOBİL HIZLI EYLEM BARI (sticky bottom)
+   ============================================================ */
+.mobile-action-bar {
+  display: none;
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  z-index: 9997;
+  background: rgba(9, 14, 26, 0.96);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(191, 154, 80, 0.18);
+  padding: 10px 12px calc(10px + env(safe-area-inset-bottom, 0px));
+  gap: 10px;
+  box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.25);
+}
+.mab-btn {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: var(--font-head);
+  letter-spacing: 0.5px;
+  text-decoration: none;
+  min-height: 50px;
+  transition: transform .15s, opacity .15s;
+}
+.mab-btn:active { transform: scale(0.97); opacity: 0.85; }
+.mab-call {
+  background: linear-gradient(135deg, var(--gold), var(--gold-2));
+  color: #0a0e1a;
+}
+.mab-whatsapp {
+  background: #25D366;
+  color: #fff;
+}
+.mab-btn svg { flex-shrink: 0; }
+
+/* Mobilde göster + ana içeriği yukarı it ki bar yazıyı kapatmasın */
+@media (max-width: 768px) {
+  .mobile-action-bar { display: flex; }
+  body { padding-bottom: 78px; }
+  .back-to-top { bottom: 90px; }
+}
+
+/* ============================================================
    MOBİL PERFORMANS OPTİMİZASYONU
    .is-mobile class'ı html'e JS tarafından eklenir
    ============================================================ */
@@ -1664,4 +1714,201 @@ select.form-input { cursor: pointer; }
   }
   /* Hover-only animasyonlar mobilde anlamsız + GPU yakar */
   .magnetic { transform: none !important; }
+}
+
+/* ============================================================
+   MOBİL UX İYİLEŞTİRMELERİ — Tipografi, Spacing, Touch
+   ============================================================ */
+@media (max-width: 768px) {
+  /* ── BÖLÜM ARASI BOŞLUKLAR — Mobilde dikey alan değerli ── */
+  .section { padding: 64px 0; }
+  .container { padding: 0 20px; }
+
+  /* ── HERO ── Daha kompakt, daha okunaklı */
+  .hero {
+    min-height: 560px;
+    padding: 80px 20px 64px;
+  }
+  .hero-title {
+    font-size: clamp(34px, 9vw, 52px);
+    line-height: 1.08;
+    letter-spacing: -1px;
+    margin-bottom: 20px;
+  }
+  .hero-desc {
+    font-size: 15px;
+    line-height: 1.65;
+    margin-bottom: 28px;
+    padding: 0 4px;
+  }
+  .hero-badge {
+    font-size: 10.5px;
+    padding: 7px 14px;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+  }
+  .hero-symbol-img { width: 84px; height: 84px; }
+  /* Arka plan logo mobilde dikkat dağıtıyor — küçült */
+  .hero-bg-logo-img { width: 60vw; max-width: 320px; }
+
+  /* ── BUTONLAR ── Touch target min 48px, tam genişlik */
+  .btn {
+    min-height: 50px;
+    padding: 14px 22px;
+    font-size: 14px;
+  }
+  .hero-btns {
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    max-width: 340px;
+    margin: 0 auto;
+  }
+  .hero-btns .btn { width: 100%; justify-content: center; }
+
+  /* ── NAVBAR ── Daha kompakt */
+  .navbar { padding: 12px 0; }
+  .nav-container { padding: 0 20px; }
+  .logo-mark-img { width: 36px !important; height: 36px !important; }
+  .logo-main { font-size: 13px !important; }
+  .logo-sub { font-size: 9px !important; }
+  .hamburger { width: 44px; height: 44px; }
+
+  /* ── SECTION TITLE ── Daha sıkı */
+  .section-title {
+    font-size: clamp(28px, 7vw, 38px);
+    letter-spacing: -0.8px;
+    margin-bottom: 16px;
+  }
+  .section-tag {
+    font-size: 10.5px;
+    letter-spacing: 2.4px;
+    margin-bottom: 14px;
+  }
+  .section-desc { font-size: 15px; line-height: 1.7; }
+
+  /* ── STATS BAND ── Daha okunaklı sayılar */
+  .stats-band { padding: 56px 0; }
+  .sb-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 8px;
+  }
+  .sb-num { font-size: 38px !important; line-height: 1.1; }
+  .sb-label { font-size: 11px; letter-spacing: 0.5px; }
+  .sb-item { padding: 24px 12px; }
+
+  /* ── FORM ── iOS auto-zoom önle (16px) + touch target */
+  .form-input {
+    font-size: 16px !important; /* iOS Safari'nin focus'ta zoom yapmasını engeller */
+    padding: 16px 14px;
+    border-radius: 10px;
+  }
+  .form-group.floating .form-input {
+    padding: 24px 14px 8px;
+  }
+  textarea.form-input { min-height: 110px; height: 130px; }
+  .form-group.floating .form-label { left: 14px; font-size: 14px; }
+  .contact-form-wrap { padding: 24px 20px; border-radius: 16px; }
+  .contact-form button[type="submit"] {
+    margin-top: 8px;
+    min-height: 52px;
+  }
+  .contact-intro { font-size: 15px; }
+  .contact-item { padding: 14px 0; }
+  .contact-item-value { font-size: 14px; }
+  .contact-icon { width: 38px; height: 38px; font-size: 17px; }
+
+  /* ── FEATURED PROJECT ── Daha temiz mobil layout */
+  .featured-project { padding: 24px 18px; border-radius: 16px; gap: 18px; }
+  .fp-bg-img { min-height: 240px; }
+  .fp-title { font-size: clamp(28px, 7vw, 36px); }
+  .fp-cta { width: 100%; }
+  .fp-cta .btn { width: 100%; justify-content: center; }
+
+  /* ── SERVICE CARDS ── */
+  .service-card {
+    padding: 28px 22px;
+    border-radius: 16px;
+    min-height: auto;
+  }
+  .service-card .sc-icon { font-size: 32px; margin-bottom: 14px; }
+  .service-card h3 { font-size: 19px; margin-bottom: 8px; }
+  .service-card p { font-size: 14px; line-height: 1.6; }
+
+  /* ── COMPLETED PROJECTS ── Stack düzgün */
+  .completed-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .completed-card {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+  }
+  .completed-img { min-height: 200px; }
+
+  /* ── ABOUT ── */
+  .about-grid { gap: 32px; }
+  .about-visual { min-height: 280px; border-radius: 16px; }
+  .about-content h2 { font-size: clamp(26px, 7vw, 36px); }
+
+  /* ── FOOTER ── */
+  .footer { padding: 56px 0 30px; }
+  .footer-grid { gap: 32px 24px; }
+  .footer-col h4 { font-size: 13px; margin-bottom: 14px; }
+  .footer-links li { margin-bottom: 8px; }
+  .footer-links a { font-size: 13px; line-height: 1.6; }
+  .footer-bottom { padding-top: 24px; font-size: 12px; }
+
+  /* ── MARQUEE ── Mobilde biraz daha yavaş ve küçük */
+  .marquee-inner span {
+    font-size: 10px;
+    padding: 0 18px;
+    letter-spacing: 1.8px;
+  }
+  .marquee-inner { padding: 14px 0; }
+
+  /* ── BACK TO TOP ── Daha küçük + safe area */
+  .back-to-top {
+    width: 44px; height: 44px;
+    right: 16px;
+  }
+
+  /* ── TOUCH TARGETS ── Minimum 44x44 her tıklanır element */
+  a, button, .nav-cta, .footer-links a, .nav-links a {
+    -webkit-tap-highlight-color: rgba(191,154,80,0.18);
+  }
+  .footer-links a {
+    display: inline-block;
+    padding: 4px 0; /* hit area arttır */
+  }
+
+  /* ── SERVİS MODALI ── Daha mobil-dostu */
+  .svc-panel-content { padding: 28px 22px; }
+  .spc-title { font-size: 22px !important; }
+  .spc-desc { font-size: 14px; line-height: 1.65; }
+
+  /* ── INTRO SCREEN ── Mobilde küçült */
+  .is-logo-img { width: 84px !important; height: 84px !important; }
+  .is-name { font-size: clamp(28px, 8vw, 42px); letter-spacing: 6px !important; }
+  .is-sub { font-size: 11px; letter-spacing: 5px !important; }
+  .is-hint { bottom: 32px; }
+
+  /* ── SCROLL HINT'i hero alttan gizle ── Mobilde kapatıcı */
+  .hero-scroll { display: none; }
+
+  /* ── ANIMATION ── Mesh pulse mobilde anlamsız + GPU yiyor */
+  .hero-mesh { animation: none; }
+  .h-line { animation: none !important; }
+}
+
+/* === Çok küçük ekranlar (≤ 380px) — kompaktlık moduna geç === */
+@media (max-width: 380px) {
+  .container { padding: 0 16px; }
+  .section { padding: 52px 0; }
+  .hero { padding: 72px 16px 56px; }
+  .hero-title { font-size: clamp(30px, 9vw, 42px); }
+  .section-title { font-size: clamp(24px, 7.5vw, 32px); }
+  .sb-num { font-size: 32px !important; }
+  .mab-btn { font-size: 13px; padding: 12px 12px; }
+  .mab-btn span { display: inline; }
 }
