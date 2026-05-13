@@ -13,8 +13,9 @@ window.addEventListener('DOMContentLoaded', () => {
   const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (REDUCED_MOTION) document.documentElement.classList.add('reduced-motion');
 
-  /* ── MOBİL TESPİTİ ── Lenis ve ağır efektler mobilde kapatılır */
-  const IS_MOBILE = window.matchMedia('(max-width: 768px)').matches || 'ontouchstart' in window;
+  /* ── MOBİL TESPİTİ ── Sadece dar viewport + hover yok = gerçek mobil */
+  const IS_MOBILE = window.matchMedia('(max-width: 768px)').matches
+    && !window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   if (IS_MOBILE) document.documentElement.classList.add('is-mobile');
 
   /* ── 3 KATMANLI EASE SİSTEMİ ── */
@@ -119,7 +120,8 @@ window.addEventListener('DOMContentLoaded', () => {
   });
 
   /* ── BİNA AÇILARI ── Mobilde grid + lightbox, masaüstünde karusel */
-  const IS_MOBILE_VIEWS = window.matchMedia('(max-width: 768px)').matches || 'ontouchstart' in window;
+  const IS_MOBILE_VIEWS = window.matchMedia('(max-width: 768px)').matches
+    && !window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   const panels   = Array.from(document.querySelectorAll('.view-panel'));
   const vDots    = document.querySelectorAll('.vdot');
   const vCurrent = document.getElementById('vCurrent');

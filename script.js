@@ -108,8 +108,10 @@ window.addEventListener('DOMContentLoaded', () => {
     cinematic: 1.20,
   };
 
-  /* ── MOBİL TESPİTİ ── Lenis ve ağır efektler mobilde kapatılır */
-  const IS_MOBILE = window.matchMedia('(max-width: 768px)').matches || 'ontouchstart' in window;
+  /* ── MOBİL TESPİTİ ── Sadece dar viewport + hover yok = gerçek mobil
+     ('ontouchstart' in window' modern tarayıcılarda masaüstünde de true dönüyor — güvenilmez) */
+  const IS_MOBILE = window.matchMedia('(max-width: 768px)').matches
+    && !window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   if (IS_MOBILE) document.documentElement.classList.add('is-mobile');
 
   /* ── LENİS SMOOTH SCROLL ── (mobilde devre dışı, native scroll daha akıcı) */
