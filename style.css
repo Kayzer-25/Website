@@ -111,7 +111,9 @@
 .marquee-track {
   display: flex; width: max-content;
   will-change: transform;
+  animation: marquee 32s linear infinite;
 }
+.marquee-track:hover { animation-play-state: paused; }
 .marquee-inner {
   display: flex; align-items: center;
   padding: 18px 0; white-space: nowrap; flex-shrink: 0;

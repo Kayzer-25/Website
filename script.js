@@ -114,23 +114,10 @@ window.addEventListener('DOMContentLoaded', () => {
     && !window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   if (IS_MOBILE) document.documentElement.classList.add('is-mobile');
 
-  /* ── LENİS SMOOTH SCROLL ── (mobilde devre dışı, native scroll daha akıcı) */
+  /* ── LENİS DEVRE DIŞI ── Native scroll daha akıcı, GSAP ScrollTrigger'larla
+     çakışma yapmaz. Lenis sürekli RAF tick yapıyordu, ScrollTrigger'lar onunla
+     senkron çalışınca masaüstü kasıyordu. */
   let lenis = null;
-  if (!REDUCED_MOTION && !IS_MOBILE && typeof Lenis !== 'undefined') {
-    lenis = new Lenis({
-      duration: 0.85,
-      easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
-      wheelMultiplier: 1,
-      touchMultiplier: 1.5,
-    });
-    lenis.on('scroll', ScrollTrigger.update);
-    gsap.ticker.add(time => lenis.raf(time * 1000));
-    gsap.ticker.lagSmoothing(0);
-    /* Intro süresince Lenis'i durdur — kullanıcı kaydırırken targetScroll biriktirmesin */
-    lenis.stop();
-    window._lenis = lenis;
-  }
 
 
   /* ── INTRO SCREEN ── */
@@ -739,26 +726,8 @@ window.addEventListener('DOMContentLoaded', () => {
      KATMAN 1 — Hızlı kazanımlar
      ═══════════════════════════════════════════════════ */
 
-  /* ── MARQUEE VELOCITY (GSAP ticker + Lenis velocity) ── */
-  const marqueeTrack = document.querySelector('.marquee-track');
-  if (marqueeTrack) {
-    let mPos      = 0;
-    let mVelocity = 0;
-    const mBase   = 0.55; // px/frame temel hız
-    const mInner  = marqueeTrack.querySelector('.marquee-inner');
-
-    lenis?.on('scroll', ({ velocity }) => {
-      mVelocity = velocity;
-    });
-
-    gsap.ticker.add(() => {
-      const speed = mBase + Math.min(Math.abs(mVelocity) * 0.45, 6);
-      mPos -= speed;
-      const w = mInner?.offsetWidth || 1;
-      if (Math.abs(mPos) >= w) mPos += w; // seamless loop
-      gsap.set(marqueeTrack, { x: mPos });
-    });
-  }
+  /* ── MARQUEE — CSS animasyonu (GSAP ticker yerine, çok daha hafif) ── */
+  /* CSS dosyasında .marquee-track için keyframes tanımlı, JS'e gerek yok */
 
   /* ── FEATURED PROJECT — Clip-path reveal (daha sinematik) ── */
   if (fp) {
