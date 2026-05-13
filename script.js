@@ -426,89 +426,15 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  /* ── SERVICES CAROUSEL — snap + scrub ── */
-  const svcPanels    = Array.from(document.querySelectorAll('.svc-track .svc-slide'));
-  const svcDots      = document.querySelectorAll('.sdot');
-  const svcCurrentEl = document.getElementById('svcCurrent');
-  const svcPbFill    = document.getElementById('svcPbFill');
-  const svcHint      = document.getElementById('svcScrollHint');
-
-  if (svcPanels.length) {
-    const N = svcPanels.length;
-
-    /* Başlangıç durumları */
-    svcPanels.forEach((p, i) => {
-      gsap.set(p, { yPercent: i === 0 ? 0 : 100 });
-      p.classList.toggle('active', i === 0);
-      if (i > 0) {
-        gsap.set(p.querySelector('.svc-left'),  { opacity: 0, y: 28 });
-        gsap.set(p.querySelector('.svc-photo'), { scale: 1.12 });
-      }
+  /* ── SERVICES GRID — 2x2 reveal animasyonu ── */
+  const sgCards = document.querySelectorAll('.sg-card');
+  if (sgCards.length) {
+    gsap.from(sgCards, {
+      scrollTrigger: { trigger: '.services-grid', start: 'top 80%', once: true },
+      opacity: 0, y: 36, duration: 0.55, ease: 'power3.out', stagger: 0.1,
     });
-
-    const svcTl = gsap.timeline({ defaults: { ease: 'none', duration: 1 } }); // scrub timeline — duration oransal, değiştirilmez
-    for (let i = 0; i < N - 1; i++) {
-      const exitLeft   = svcPanels[i].querySelector('.svc-left');
-      const enterLeft  = svcPanels[i + 1].querySelector('.svc-left');
-      const exitPhoto  = svcPanels[i].querySelector('.svc-photo');
-      const enterPhoto = svcPanels[i + 1].querySelector('.svc-photo');
-
-      svcTl
-        .to(svcPanels[i],     { yPercent: -100 }, i)
-        .to(svcPanels[i + 1], { yPercent: 0    }, i)
-        /* Görsel Ken Burns: çıkan hafifçe küçülür, giren büyükten normale gelir */
-        .to(exitPhoto,  { scale: 0.93, duration: 1 }, i)
-        .fromTo(enterPhoto,
-          { scale: 1.12 },
-          { scale: 1.0,  duration: 1 },
-          i
-        )
-        /* Sol metin: çıkarken yukarı uçar */
-        .to(exitLeft,  { opacity: 0, y: -24, duration: 0.35 }, i)
-        /* Sol metin: girerken aşağıdan süzülür */
-        .fromTo(enterLeft,
-          { opacity: 0, y: 28 },
-          { opacity: 1, y: 0,  duration: 0.45 },
-          i + 0.55
-        );
-    }
-
-    ScrollTrigger.create({
-      id: 'svc-pin',
-      trigger: '#services',
-      pin: true,
-      pinSpacing: true,
-      start: 'top top',
-      end: () => `+=${(N - 1) * window.innerHeight}`,
-      scrub: true,
-      snap: {
-        snapTo: 1 / (N - 1),
-        duration: { min: 0.18, max: 0.5 },
-        ease: 'power3.inOut',
-        delay: 0.02,
-      },
-      animation: svcTl,
-      onUpdate(self) {
-        const idx = Math.min(N - 1, Math.round(self.progress * (N - 1)));
-        svcPanels.forEach((p, i) => p.classList.toggle('active', i === idx));
-        svcDots.forEach((dot, i) => dot.classList.toggle('active', i === idx));
-        if (svcCurrentEl) svcCurrentEl.textContent = String(idx + 1).padStart(2, '0');
-        if (svcPbFill) svcPbFill.style.width = (self.progress * 100) + '%';
-        if (svcHint) svcHint.style.opacity = self.progress > 0.05 ? '0' : '1';
-      },
-    });
-
-    svcDots.forEach((dot, i) => {
-      dot.addEventListener('click', () => {
-        const st = ScrollTrigger.getById('svc-pin');
-        if (!st) return;
-        const extra   = (N - 1) * window.innerHeight;
-        const portion = i === 0 ? 0 : (i / (N - 1)) * extra;
-        window.scrollTo({ top: st.start + portion, behavior: 'smooth' });
-      });
-    });
-
-    document.querySelectorAll('.svc-slide, .svc-btn').forEach(el => {
+    /* Cursor hover */
+    sgCards.forEach(el => {
       el.addEventListener('mouseenter', () => document.querySelector('.cursor-ring')?.classList.add('hover'));
       el.addEventListener('mouseleave', () => document.querySelector('.cursor-ring')?.classList.remove('hover'));
     });
@@ -749,8 +675,13 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  document.querySelectorAll('.svc-btn').forEach(btn => {
-    btn.addEventListener('click', () => openSvcModal(+btn.dataset.service));
+  /* Yeni grid sistemi: kart veya buton tıklanabilir */
+  document.querySelectorAll('.sg-btn, .sg-card, .svc-btn').forEach(el => {
+    el.addEventListener('click', (e) => {
+      /* Kart tıklamasında, eğer buton zaten click'lendiyse iki kez açma */
+      if (el.classList.contains('sg-card') && e.target.closest('.sg-btn')) return;
+      openSvcModal(+el.dataset.service);
+    });
   });
   document.getElementById('svcClose').addEventListener('click', closeSvcModal);
   svcOverlay.addEventListener('click', e => { if (e.target === svcOverlay) closeSvcModal(); });

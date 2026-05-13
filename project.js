@@ -118,13 +118,34 @@ window.addEventListener('DOMContentLoaded', () => {
     opacity: .95, ease: 'none',
   });
 
-  /* ── BİNA AÇILARI KARUSELİ — snap + scrub ── */
+  /* ── BİNA AÇILARI ── Mobilde grid + lightbox, masaüstünde karusel */
+  const IS_MOBILE_VIEWS = window.matchMedia('(max-width: 768px)').matches || 'ontouchstart' in window;
   const panels   = Array.from(document.querySelectorAll('.view-panel'));
   const vDots    = document.querySelectorAll('.vdot');
   const vCurrent = document.getElementById('vCurrent');
   const vpbFill  = document.getElementById('vpbFill');
 
-  if (panels.length) {
+  /* MOBİL: Her panele tıklayınca lightbox aç (karusel mantığı atlanır) */
+  if (IS_MOBILE_VIEWS && panels.length) {
+    panels.forEach(p => {
+      p.addEventListener('click', () => {
+        const img = p.querySelector('.vp-photo');
+        const lb = document.getElementById('planLightbox');
+        const lbImage = document.getElementById('lbImg');
+        if (!img || !lb || !lbImage) return;
+        lbImage.src = img.src;
+        gsap.set(lbImage, { scale: 1 });
+        lb.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        gsap.from(lbImage, { scale: .85, opacity: 0, duration: .4, ease: 'back.out(1.4)' });
+      });
+    });
+    /* Reveal animasyonu */
+    gsap.from(panels, {
+      scrollTrigger: { trigger: '#viewsSection', start: 'top 80%', once: true },
+      opacity: 0, y: 30, duration: 0.5, ease: 'power3.out', stagger: 0.07,
+    });
+  } else if (panels.length) {
     const N = panels.length;
 
     /* Başlangıç durumları */

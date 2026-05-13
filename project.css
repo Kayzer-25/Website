@@ -496,3 +496,85 @@
   .pb-title { font-size: clamp(24px, 7.5vw, 32px); }
   .pcta-btns .btn { font-size: 13px; padding: 12px 16px; }
 }
+
+/* ============================================================
+   BİNA GÖRÜNÜMLERİ — Mobilde grid + lightbox, masaüstünde tam ekran
+   ============================================================ */
+@media (max-width: 768px) {
+  /* Mobilde scroll-snap carousel'ı kapat */
+  .views-section { padding: 64px 0; height: auto !important; }
+  .views-track {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    height: auto !important;
+    padding: 0 16px;
+  }
+  .view-panel {
+    position: relative !important;
+    height: auto !important;
+    aspect-ratio: 1 / 1;
+    border-radius: 12px;
+    overflow: hidden;
+    opacity: 1 !important;
+    transform: none !important;
+    visibility: visible !important;
+    cursor: pointer;
+  }
+  .view-panel:first-child {
+    grid-column: 1 / -1;
+    aspect-ratio: 16 / 10;
+  }
+  .vp-bg {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+  }
+  .vp-photo {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover;
+    transform: none !important;
+  }
+  .vp-info {
+    position: absolute !important;
+    inset: auto 0 0 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    padding: 10px 12px !important;
+    background: linear-gradient(0deg, rgba(5,8,16,0.92) 0%, rgba(5,8,16,0) 100%);
+    border-radius: 0;
+    max-width: 100% !important;
+  }
+  .vp-info .vpi-num { font-size: 10px !important; opacity: 0.6; }
+  .vp-info .vpi-title { font-size: 14px !important; line-height: 1.15 !important; margin: 2px 0 0 0 !important; }
+  .vp-info .vpi-desc { display: none; }
+  .vp-info .vpi-tags { display: none; }
+
+  /* Carousel kontrollerini gizle */
+  .views-hdr-right .views-dots,
+  .views-counter,
+  .views-progress-bar { display: none !important; }
+  .views-hdr {
+    padding: 0 16px 18px !important;
+    border-bottom: none !important;
+  }
+
+  /* Tıklanabilir overlay */
+  .view-panel::after {
+    content: '🔍';
+    position: absolute;
+    top: 10px; right: 10px;
+    width: 32px; height: 32px;
+    background: rgba(5,8,16,0.65);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    z-index: 2;
+    pointer-events: none;
+  }
+}
