@@ -2,22 +2,66 @@
    PROJECT.JS — Alptekin Residences
    ========================================================= */
 
+/* ── SCROLL RESTORATION ── */
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+window.scrollTo(0, 0);
+
 window.addEventListener('DOMContentLoaded', () => {
   gsap.registerPlugin(ScrollTrigger);
 
-  /* ── CSS pencere grid ── */
-  const winGrid = document.querySelector('.pba-windows-grid');
-  if (winGrid) {
-    for (let r = 0; r < 8; r++) {
-      for (let c = 0; c < 5; c++) {
-        const w = document.createElement('div');
-        w.className = 'pba-window';
-        w.style.setProperty('--dur', (2 + Math.random() * 4).toFixed(1) + 's');
-        w.style.setProperty('--del', (Math.random() * 4).toFixed(1) + 's');
-        winGrid.appendChild(w);
-      }
-    }
+  /* ── REDUCED MOTION ── */
+  const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (REDUCED_MOTION) document.documentElement.classList.add('reduced-motion');
+
+  /* ── 3 KATMANLI EASE SİSTEMİ ── */
+  const EASE = { micro: 'power2.out', reveal: 'power3.out', cinematic: 'expo.out' };
+  const DUR  = { micro: 0.30, reveal: 0.70, cinematic: 1.20 };
+
+
+  /* ── LENİS SMOOTH SCROLL + GSAP ENTEGRASYONU ── */
+  let lenis = null;
+  if (!REDUCED_MOTION && typeof Lenis !== 'undefined') lenis = new Lenis({
+    duration: 0.85,
+    easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    smoothWheel: true,
+    wheelMultiplier: 1,
+    touchMultiplier: 1.5,
+    infinite: false,
+  });
+
+  if (lenis) {
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add(time => lenis.raf(time * 1000));
+    gsap.ticker.lagSmoothing(0);
+    window._lenis = lenis;
   }
+
+  /* ── SAYFA GEÇİŞ PERDESİ — AÇILIŞ ── */
+  const ptCurtain = document.getElementById('ptCurtain');
+  const ptLogo    = ptCurtain?.querySelector('.pt-logo');
+  if (ptCurtain) {
+    gsap.set(ptCurtain, { yPercent: 0 });
+    gsap.timeline({ delay: 0.05 })
+      .to(ptLogo,     { opacity: 0.9,   duration: 0.25, ease: 'power2.out'   }, 0)
+      .to(ptCurtain,  { yPercent: -100, duration: 0.6,  ease: 'power4.inOut' }, 0.18)
+      .set(ptCurtain, { pointerEvents: 'none' });
+  }
+
+  /* ── GERİ DÖN LİNKLERİ — perdeli geçiş ── */
+  document.querySelectorAll('a[href]').forEach(link => {
+    const href = link.getAttribute('href');
+    if (!href || href.startsWith('#') || href.startsWith('http') || href.startsWith('mailto') || href.startsWith('tel')) return;
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      if (!ptCurtain) { window.location.href = href; return; }
+      lenis?.stop();
+      ptCurtain.style.pointerEvents = 'all';
+      gsap.timeline({ onComplete: () => { window.location.href = href; } })
+        .set(ptCurtain, { yPercent: 100 })
+        .to(ptCurtain,  { yPercent: 0,  duration: 0.55, ease: 'power4.inOut' }, 0)
+        .to(ptLogo,     { opacity: 0.9, duration: 0.22, ease: 'power2.out'  }, 0.15);
+    });
+  });
 
   /* ── NAVBAR ── */
   const navbar = document.getElementById('navbar');
@@ -49,14 +93,14 @@ window.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.mobile-link').forEach(l => l.addEventListener('click', closeMobile));
 
   /* ── HERO GİRİŞ ANİMASYONU ── */
-  const heroTl = gsap.timeline({ delay: .2, defaults: { ease: 'power4.out' } });
+  const heroTl = gsap.timeline({ delay: .12, defaults: { ease: 'power4.out' } });
   heroTl
-    .from('.ph-eyebrow',   { opacity: 0, y: 20,    duration: .6 }, 0)
-    .from('#phL1',         { yPercent: 110,         duration: 1.0 }, .2)
-    .from('#phL2',         { yPercent: 110,         duration: 1.0 }, .38)
-    .from('#phDesc',       { opacity: 0, y: 28,     duration: .7 }, .6)
-    .from('.ph-badge-item',{ opacity: 0, y: 20,     duration: .5, stagger: .08 }, .8)
-    .from('#phScrollCue',  { opacity: 0, y: 12,     duration: .5 }, 1.1);
+    .from('.ph-eyebrow',   { opacity: 0, y: 14,    duration: .4 }, 0)
+    .from('#phL1',         { yPercent: 110,         duration: 0.7 }, .15)
+    .from('#phL2',         { yPercent: 110,         duration: 0.7 }, .28)
+    .from('#phDesc',       { opacity: 0, y: 18,     duration: .45 }, .42)
+    .from('.ph-badge-item',{ opacity: 0, y: 14,     duration: .35, stagger: .055 }, .55)
+    .from('#phScrollCue',  { opacity: 0, y: 8,      duration: .35 }, .78);
 
   /* ── HERO PARALLAX ── */
   gsap.to('#phBuildingWrap', {
@@ -70,126 +114,93 @@ window.addEventListener('DOMContentLoaded', () => {
     opacity: .95, ease: 'none',
   });
 
-  /* ── BİNA AÇILARI KARUSELİ ── */
-  const panels    = Array.from(document.querySelectorAll('.view-panel'));
-  const vDots     = document.querySelectorAll('.vdot');
-  const vCurrent  = document.getElementById('vCurrent');
-  const vpbFill   = document.getElementById('vpbFill');
-  let activeIdx   = 0;
-  let viewsBusy   = false;
-  let viewsTarget = -1;
+  /* ── BİNA AÇILARI KARUSELİ — snap + scrub ── */
+  const panels   = Array.from(document.querySelectorAll('.view-panel'));
+  const vDots    = document.querySelectorAll('.vdot');
+  const vCurrent = document.getElementById('vCurrent');
+  const vpbFill  = document.getElementById('vpbFill');
 
-  function showPanel(idx, dir) {
-    if (idx === activeIdx) return;
-    const prev  = panels[activeIdx];
-    const next  = panels[idx];
-    const d     = (dir === undefined) ? (idx > activeIdx ? 1 : -1) : dir;
+  if (panels.length) {
+    const N = panels.length;
 
-    const prevBg  = prev.querySelector('.vp-bg');
-    const nextBg  = next.querySelector('.vp-bg');
-    const prevEls = prev.querySelectorAll('.vpi-num,.vpi-title,.vpi-desc,.vpi-tags');
-    const nextEls = next.querySelectorAll('.vpi-num,.vpi-title,.vpi-desc,.vpi-tags');
-
-    gsap.set(prev, { zIndex: 2 });
-    gsap.set(next, { zIndex: 3 });
-    next.classList.add('active');
-    activeIdx = idx;
-    viewsBusy = true;
-
-    /* ── Görsel: crossfade + hafif Ken Burns scale ── */
-    gsap.fromTo(nextBg,
-      { opacity: 0, scale: 1.06 },
-      { opacity: 1, scale: 1, duration: 1.05, ease: 'power2.out', overwrite: true }
-    );
-    gsap.to(prevBg, {
-      opacity: 0, scale: 0.96, duration: 0.55, ease: 'power2.in', overwrite: true,
+    /* Başlangıç durumları */
+    panels.forEach((p, i) => {
+      gsap.set(p, { yPercent: i === 0 ? 0 : 100 });
+      p.classList.toggle('active', i === 0);
+      const txt = p.querySelectorAll('.vpi-num, .vpi-title, .vpi-desc, .vpi-tags');
+      gsap.set(txt, { opacity: i === 0 ? 1 : 0, y: i === 0 ? 0 : 32 });
+      /* Görsel: aktif değilkenlerin görseli zoom-in bekler */
+      if (i > 0) gsap.set(p.querySelector('.vp-bg'), { scale: 1.12 });
     });
 
-    /* ── Eski metin: yukarı uçar ── */
-    gsap.to(prevEls, {
-      opacity: 0, y: d > 0 ? -18 : 18,
-      duration: 0.28, ease: 'power2.in', stagger: 0.04, overwrite: true,
+    /* Timeline: panel + görsel Ken Burns + metin */
+    const viewsTl = gsap.timeline({ defaults: { ease: 'none', duration: 1 } });
+    for (let i = 0; i < N - 1; i++) {
+      const exitTxt  = panels[i].querySelectorAll('.vpi-num, .vpi-title, .vpi-desc, .vpi-tags');
+      const enterTxt = panels[i + 1].querySelectorAll('.vpi-num, .vpi-title, .vpi-desc, .vpi-tags');
+      const exitBg   = panels[i].querySelector('.vp-bg');
+      const enterBg  = panels[i + 1].querySelector('.vp-bg');
+
+      viewsTl
+        /* Panel slayt */
+        .to(panels[i],     { yPercent: -100 }, i)
+        .to(panels[i + 1], { yPercent: 0    }, i)
+        /* Görsel Ken Burns: çıkan hafifçe küçülür, giren büyükten normale gelir */
+        .to(exitBg,  { scale: 0.93, duration: 1 }, i)
+        .fromTo(enterBg,
+          { scale: 1.12 },
+          { scale: 1.0,  duration: 1 },
+          i
+        )
+        /* Metin: çıkan yukarı uçar */
+        .to(exitTxt,  { opacity: 0, y: -22, duration: 0.35 }, i)
+        /* Metin: giren aşağıdan süzülür */
+        .fromTo(enterTxt,
+          { opacity: 0, y: 32 },
+          { opacity: 1, y: 0,  duration: 0.45 },
+          i + 0.55
+        );
+    }
+
+    ScrollTrigger.create({
+      id: 'views-pin',
+      trigger: '#viewsSection',
+      pin: true,
+      pinSpacing: true,
+      start: 'top top',
+      end: () => `+=${(N - 1) * window.innerHeight}`,
+      /* scrub:true = scroll ile anlık senkron, lag yok */
+      scrub: true,
+      /* snap = %50 geçince "tık" diye oturur — aircenter tarzı */
+      snap: {
+        snapTo: 1 / (N - 1),
+        duration: { min: 0.18, max: 0.5 },
+        ease: 'power3.inOut',
+        delay: 0.04,
+      },
+      animation: viewsTl,
+      onUpdate(self) {
+        const idx = Math.min(N - 1, Math.round(self.progress * (N - 1)));
+        panels.forEach((p, i) => p.classList.toggle('active', i === idx));
+        vDots.forEach((dot, i) => dot.classList.toggle('active', i === idx));
+        if (vCurrent) vCurrent.textContent = String(idx + 1).padStart(2, '0');
+        if (vpbFill) vpbFill.style.width = (self.progress * 100) + '%';
+      },
     });
 
-    /* ── Yeni metin: aşağıdan maskeli gelir ── */
-    gsap.fromTo(nextEls,
-      { opacity: 0, y: d > 0 ? 28 : -28 },
-      { opacity: 1, y: 0, duration: 0.72, ease: 'power3.out', stagger: 0.1, delay: 0.38, overwrite: true }
-    );
-
-    /* UI */
-    vDots.forEach((dot, i) => dot.classList.toggle('active', i === idx));
-    if (vCurrent) vCurrent.textContent = String(idx + 1).padStart(2, '0');
-    if (vpbFill)  vpbFill.style.width  = ((idx / (panels.length - 1)) * 100) + '%';
-
-    /* Temizlik + kilit aç — gerekirse zincirleme devam */
-    gsap.delayedCall(1.1, () => {
-      prev.classList.remove('active');
-      gsap.set(prev, { zIndex: 1 });
-      gsap.set(prevBg,  { opacity: 0, scale: 1 });   /* bir sonraki aktivasyona hazır */
-      gsap.set(prevEls, { opacity: 0, y: 0 });
-      viewsBusy = false;
-
-      if (viewsTarget !== -1 && viewsTarget !== activeIdx) {
-        const t = viewsTarget; viewsTarget = -1;
-        showPanel(t, t > activeIdx ? 1 : -1);
-      } else {
-        viewsTarget = -1;
-      }
+    /* Dot navigation */
+    vDots.forEach((dot, i) => {
+      dot.addEventListener('click', () => {
+        const st = ScrollTrigger.getById('views-pin');
+        if (!st) return;
+        const extra   = (N - 1) * window.innerHeight;
+        const portion = i === 0 ? 0 : (i / (N - 1)) * extra;
+        const target = st.start + portion;
+        if (window._lenis) window._lenis.scrollTo(target, { duration: 1.2 });
+        else window.scrollTo({ top: target, behavior: 'smooth' });
+      });
     });
   }
-
-  /* ── Initialize ── */
-  gsap.set(panels[0], { zIndex: 2 });
-  panels.forEach((p, i) => {
-    const bg  = p.querySelector('.vp-bg');
-    const els = p.querySelectorAll('.vpi-num,.vpi-title,.vpi-desc,.vpi-tags');
-    if (i === 0) {
-      gsap.set(bg,  { opacity: 1, scale: 1 });
-      gsap.set(els, { opacity: 1, y: 0 });
-    } else {
-      gsap.set(p,   { zIndex: 1 });
-      gsap.set(bg,  { opacity: 0, scale: 1 });
-      gsap.set(els, { opacity: 0, y: 0 });
-    }
-  });
-
-  /* ── ScrollTrigger PIN ── */
-  ScrollTrigger.create({
-    id: 'views-pin',
-    trigger: '#viewsSection',
-    pin: true,
-    pinSpacing: true,
-    anticipatePin: 1,
-    start: 'top top',
-    end: () => `+=${(panels.length - 1) * window.innerHeight}`,
-
-    onUpdate(self) {
-      const newIdx = Math.min(
-        panels.length - 1,
-        Math.floor(self.progress * panels.length)
-      );
-      if (newIdx === activeIdx) { viewsTarget = -1; return; }
-
-      if (viewsBusy) {
-        viewsTarget = newIdx;
-      } else {
-        viewsTarget = -1;
-        showPanel(newIdx, newIdx > activeIdx ? 1 : -1);
-      }
-    },
-  });
-
-  /* ── Dot navigation — ilgili scroll konumuna atlar ── */
-  vDots.forEach((dot, i) => {
-    dot.addEventListener('click', () => {
-      const st = ScrollTrigger.getById('views-pin');
-      if (!st) return;
-      const extra   = (panels.length - 1) * window.innerHeight;
-      const portion = i === 0 ? 0 : (i / panels.length + 0.02) * extra;
-      window.scrollTo({ top: st.start + portion, behavior: 'smooth' });
-    });
-  });
 
   /* ── VIEW PHOTOS — fade in when loaded ── */
   document.querySelectorAll('.vp-photo').forEach(img => {
@@ -205,7 +216,7 @@ window.addEventListener('DOMContentLoaded', () => {
       gsap.from('.ps-item', { opacity: 0, y: 40, scale: .95, duration: .6, ease: 'power3.out', stagger: .08 });
       document.querySelectorAll('.ps-num[data-target]').forEach(el => {
         gsap.to({ val: 0 }, {
-          val: +el.dataset.target, duration: 1.8, ease: 'power2.out',
+          val: +el.dataset.target, duration: 1.2, ease: 'power2.out',
           onUpdate() { el.textContent = Math.round(this.targets()[0].val); },
         });
       });
@@ -215,17 +226,17 @@ window.addEventListener('DOMContentLoaded', () => {
   /* ── LOCATION SECTION ── */
   gsap.from('.location-intro > *', {
     scrollTrigger: { trigger: '.location-intro', start: 'top 80%', once: true },
-    opacity: 0, y: 32, duration: .65, ease: 'power3.out', stagger: .14,
+    opacity: 0, y: 18, duration: .42, ease: 'power3.out', stagger: .08,
   });
   gsap.from('.poi-group', {
     scrollTrigger: { trigger: '.location-pois', start: 'top 80%', once: true },
-    opacity: 0, y: 20, duration: .5, ease: 'power3.out', stagger: .1,
+    opacity: 0, y: 14, duration: .35, ease: 'power3.out', stagger: .06,
   });
 
   /* ── PLANS INTRO ── */
   gsap.from('.plans-intro > *', {
     scrollTrigger: { trigger: '.plans-intro', start: 'top 80%', once: true },
-    opacity: 0, y: 36, duration: .65, ease: 'power3.out', stagger: .14,
+    opacity: 0, y: 18, duration: .42, ease: 'power3.out', stagger: .08,
   });
 
   /* ── KAT PLANLARI — Clip-path + 3D reveal ── */
@@ -241,43 +252,43 @@ window.addEventListener('DOMContentLoaded', () => {
     const xFrom    = isLeft ? -80 : 80;
 
     const tl = gsap.timeline({
-      scrollTrigger: { trigger: block, start: 'top 72%', once: true }
+      scrollTrigger: { trigger: block, start: 'top 75%', once: true }
     });
 
     tl
       .from(meta, {
-        opacity: 0, x: -xFrom * 0.5, duration: .8, ease: 'power3.out',
+        opacity: 0, x: -xFrom * 0.4, duration: .5, ease: 'power3.out',
       }, 0)
       .fromTo(inner,
         {
-          clipPath: clipFrom, scale: .95,
-          rotateY: isLeft ? -8 : 8,
+          clipPath: clipFrom, scale: .97,
+          rotateY: isLeft ? -6 : 6,
           transformPerspective: 1200,
           immediateRender: false,
         },
         {
           clipPath: 'inset(0% 0% 0% 0%)', scale: 1, rotateY: 0,
-          duration: 1.0, ease: 'power3.out',
+          duration: 0.65, ease: 'power3.out',
         },
-        .12
+        .08
       )
       .from(rooms, {
-        opacity: 0, x: isLeft ? -20 : 20, duration: .4, ease: 'power2.out', stagger: .06,
-      }, .4);
+        opacity: 0, x: isLeft ? -14 : 14, duration: .28, ease: 'power2.out', stagger: .04,
+      }, .28);
   });
 
   /* ── SECTION HEADINGS ── */
   document.querySelectorAll('.gs-section-head').forEach(el => {
     gsap.from(el.children, {
       scrollTrigger: { trigger: el, start: 'top 80%', once: true },
-      opacity: 0, y: 32, duration: .7, ease: 'power3.out', stagger: .12,
+      opacity: 0, y: 18, duration: .45, ease: 'power3.out', stagger: .07,
     });
   });
 
   /* ── CTA ── */
   gsap.from('.pcta-inner > *', {
     scrollTrigger: { trigger: '.proj-cta', start: 'top 75%', once: true },
-    opacity: 0, y: 36, duration: .65, ease: 'power3.out', stagger: .1,
+    opacity: 0, y: 18, duration: .4, ease: 'power3.out', stagger: .07,
   });
 
   /* ── MAGNETIC ── */

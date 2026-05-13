@@ -77,8 +77,55 @@ const projects = {
   },
 };
 
+/* ── SCROLL RESTORATION ── */
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+document.documentElement.scrollTop = 0;
+document.body.scrollTop = 0;
+
 window.addEventListener('DOMContentLoaded', () => {
   gsap.registerPlugin(ScrollTrigger);
+
+  /* ============================================================
+     PROFESYONEL MOTION SİSTEMİ — Anthropic tarafından eklendi
+     ============================================================ */
+
+  /* ── REDUCED MOTION DESTEĞİ ── */
+  const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (REDUCED_MOTION) {
+    document.documentElement.classList.add('reduced-motion');
+  }
+
+  /* ── 3 KATMANLI EASE SİSTEMİ ── */
+  /* Tüm animasyonlar bu üç katmandan birini kullanır */
+  const EASE = {
+    micro:     'power2.out',       // hover, click, küçük dönüşümler
+    reveal:    'power3.out',       // scroll reveal, section girişleri
+    cinematic: 'expo.out',         // hero, intro, "vay" anları
+  };
+  const DUR = {
+    micro:     0.30,
+    reveal:    0.70,
+    cinematic: 1.20,
+  };
+
+  /* ── LENİS SMOOTH SCROLL ── */
+  let lenis = null;
+  if (!REDUCED_MOTION && typeof Lenis !== 'undefined') {
+    lenis = new Lenis({
+      duration: 0.85,
+      easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      wheelMultiplier: 1,
+      touchMultiplier: 1.5,
+    });
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add(time => lenis.raf(time * 1000));
+    gsap.ticker.lagSmoothing(0);
+    /* Intro süresince Lenis'i durdur — kullanıcı kaydırırken targetScroll biriktirmesin */
+    lenis.stop();
+    window._lenis = lenis;
+  }
+
 
   /* ── INTRO SCREEN ── */
   const introScreen   = document.getElementById('introScreen');
@@ -89,6 +136,15 @@ window.addEventListener('DOMContentLoaded', () => {
   const isHint        = document.getElementById('isHint');
   const heroBgLogoImg = document.getElementById('heroBgLogoImg');
 
+  /* ── HASH BYPASS ── Eğer URL'de #contact gibi bir hash varsa intro'yu atla */
+  const initialHash = window.location.hash;
+  const skipIntro = !!initialHash && document.getElementById(initialHash.slice(1));
+
+  if (skipIntro && introScreen) {
+    /* Intro'yu hiç göstermeden gizle */
+    introScreen.style.display = 'none';
+    if (heroBgLogoImg) heroBgLogoImg.style.opacity = '0.055';
+  } else {
   /* Scroll kilitli — intro oynarken kaydırmayı engelle */
   document.body.style.overflow = 'hidden';
 
@@ -100,37 +156,33 @@ window.addEventListener('DOMContentLoaded', () => {
   gsap.set(isHint, { opacity: 0, y: 14 });
 
   /* Intro giriş animasyonu */
-  const introTl = gsap.timeline({ delay: 0.15 });
+  const introTl = gsap.timeline({ delay: 0.1 });
   introTl
     .to(isLogo, {
       opacity: 1, scale: 1, y: 0,
-      duration: 1.15, ease: 'back.out(1.5)',
+      duration: 0.75, ease: 'back.out(1.4)',
     }, 0)
     .to(isName, {
       opacity: 1, y: 0,
-      duration: 0.9, ease: 'power3.out',
-    }, 0.55)
+      duration: 0.6, ease: 'power3.out',
+    }, 0.35)
     .to(isSub, {
       opacity: 1, y: 0,
-      duration: 0.75, ease: 'power3.out',
-    }, 0.78)
+      duration: 0.5, ease: 'power3.out',
+    }, 0.52)
     .to(isRule, {
       scaleX: 1, opacity: 1,
-      duration: 0.9, ease: 'power2.out',
-    }, 0.92)
+      duration: 0.55, ease: 'power2.out',
+    }, 0.62)
     .to(isHint, {
       opacity: 1, y: 0,
-      duration: 0.65, ease: 'power2.out',
-    }, 1.35)
-    /* Scroll'u 1.0s sonra aç */
-    .add(() => {
-      document.body.style.overflow = '';
-    }, 1.0);
+      duration: 0.4, ease: 'power2.out',
+    }, 0.88);
 
   /* ── Intro çıkış animasyonu ── */
   let introExited = false;
   let introReady  = false;
-  introTl.add(() => { introReady = true; }, 0.9);
+  introTl.add(() => { introReady = true; }, 0.6);
 
   function exitIntro() {
     if (introExited || !introReady) return;
@@ -143,21 +195,31 @@ window.addEventListener('DOMContentLoaded', () => {
       onComplete() {
         introScreen.style.display = 'none';
 
-        /* Scroll'u en başa al — projeler bölümü doğru konumda görünsün */
+        /* Scroll sıfırla — Lenis henüz durduğundan native sıfırlama güvenli */
         window.scrollTo(0, 0);
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
 
-        /* Scroll kilidini kaldır */
+        /* Scroll kilidini kaldır (id ile hedeflenmiş — yanlış tag silme riski yok) */
+        document.getElementById('scroll-lock')?.remove();
         document.body.style.overflow = '';
+        document.documentElement.style.overflow = '';
 
-        /* Tüm ScrollTrigger pozisyonlarını yeniden hesapla */
-        ScrollTrigger.refresh();
+        /* Lenis: biriken targetScroll'u sıfırla, sonra başlat */
+        if (lenis) {
+          lenis.scrollTo(0, { immediate: true });
+          lenis.start();
+        }
+
+        /* ScrollTrigger refresh */
+        requestAnimationFrame(() => ScrollTrigger.refresh());
 
         runHeroAnimation();
 
         /* Arka plan logosu solukça belirir */
         gsap.to(heroBgLogoImg, {
           opacity: 0.055,
-          duration: 1.4, ease: 'power2.out', delay: 0.3,
+          duration: 0.9, ease: 'power2.out', delay: 0.2,
         });
 
         /* Logo projeler bölümüne doğru inerken silinir */
@@ -176,41 +238,95 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 
     exitTl
-      .to(isHint, { opacity: 0, y: -16, duration: 0.25, ease: 'power2.in' }, 0)
-      .to(isRule, { opacity: 0, width: 0, duration: 0.3, ease: 'power2.in' }, 0.05)
-      .to(isSub,  { opacity: 0, y: -22, duration: 0.35, ease: 'power2.in' }, 0.08)
-      .to(isName, { opacity: 0, y: -36, duration: 0.42, ease: 'power2.in' }, 0.13)
-      .to(isLogo, { opacity: 0, scale: 0.75, duration: 0.45, ease: 'power2.in' }, 0.18)
-      .to(introScreen, { yPercent: -100, duration: 0.85, ease: 'power4.inOut' }, 0.28);
+      .to(isHint, { opacity: 0, y: -10, duration: 0.18, ease: 'power2.in' }, 0)
+      .to(isRule, { opacity: 0, width: 0, duration: 0.2, ease: 'power2.in' }, 0.04)
+      .to(isSub,  { opacity: 0, y: -16, duration: 0.22, ease: 'power2.in' }, 0.06)
+      .to(isName, { opacity: 0, y: -24, duration: 0.28, ease: 'power2.in' }, 0.10)
+      .to(isLogo, { opacity: 0, scale: 0.8, duration: 0.28, ease: 'power2.in' }, 0.14)
+      .to(introScreen, { yPercent: -100, duration: 0.65, ease: 'power4.inOut' }, 0.2);
   }
 
   /* İlk etkileşim intro'yu kapatır */
   window.addEventListener('scroll',     exitIntro, { once: true, passive: true });
   window.addEventListener('wheel',      exitIntro, { once: true, passive: true });
   window.addEventListener('touchstart', exitIntro, { once: true, passive: true });
+  } /* skipIntro else bloğunun sonu */
+
+  /* skipIntro ise hero animasyonunu burada başlat ve hash hedefine scroll yap */
+  if (skipIntro) {
+    /* Scroll kilidi yokken Lenis'i başlat */
+    document.getElementById('scroll-lock')?.remove();
+    document.body.style.overflow = '';
+    document.documentElement.style.overflow = '';
+    if (lenis) lenis.start();
+    requestAnimationFrame(() => {
+      runHeroAnimation();
+      ScrollTrigger.refresh();
+      setTimeout(() => {
+        const targetId = initialHash.slice(1);
+        if (targetId === 'services') {
+          const st = ScrollTrigger.getById('svc-pin');
+          if (st && window._lenis) { window._lenis.scrollTo(Math.round(st.start), { duration: 0.9 }); return; }
+          if (st) { window.scrollTo({ top: Math.round(st.start), behavior: 'smooth' }); return; }
+        }
+        const el = document.getElementById(targetId);
+        if (!el) return;
+        const top = Math.round(el.getBoundingClientRect().top + window.scrollY);
+        if (window._lenis) window._lenis.scrollTo(top, { duration: 1.2 });
+        else window.scrollTo({ top, behavior: 'smooth' });
+      }, 350);
+    });
+  }
 
   /* ── HERO ── */
-  function runHeroAnimation() {
-    const heroTl = gsap.timeline({
-      defaults: { ease: 'power4.out' }
+  /* Bir kelimeyi karakter span'larına böl — premium SplitText efekti */
+  function splitToChars(el) {
+    if (!el || el.dataset.split === '1') return [];
+    const text = el.textContent;
+    el.textContent = '';
+    el.dataset.split = '1';
+    const chars = [];
+    [...text].forEach(ch => {
+      const span = document.createElement('span');
+      span.className = 'split-char';
+      span.style.display = 'inline-block';
+      span.style.willChange = 'transform, opacity';
+      span.textContent = ch === ' ' ? '\u00A0' : ch;
+      el.appendChild(span);
+      chars.push(span);
     });
+    return chars;
+  }
+
+  function runHeroAnimation() {
+    /* Satır 1 ve 3 — karakter bazlı split */
+    const chars1 = splitToChars(document.getElementById('heroLine1'));
+    const chars3 = splitToChars(document.getElementById('heroLine3'));
+
+    /* Satır 2 — gradient-text split edilince CSS bozulur, bütün halde animate et */
+    const line2 = document.getElementById('heroLine2');
+
+    gsap.set([...chars1, ...chars3], { yPercent: 110, opacity: 0 });
+    gsap.set(line2, { yPercent: 110 }); /* reveal-line overflow:hidden ile klipler */
+
+    const heroTl = gsap.timeline({ defaults: { ease: EASE.cinematic } });
     heroTl
-      .from('#heroSymbol',  { opacity: 0, scale: .7, duration: .9, ease: 'back.out(1.6)' }, 0)
-      .from('#heroBadge',  { opacity: 0, y: 18, scale: .96, duration: .65 }, .38)
-      .from('#heroLine1',  { yPercent: 115, duration: 1.05 }, .55)
-      .from('#heroLine2',  { yPercent: 115, duration: 1.05 }, .71)
-      .from('#heroLine3',  { yPercent: 115, duration: 1.05 }, .87)
-      .from('#heroDesc',   { opacity: 0, y: 28, duration: .8 }, 1.1)
-      .from('#heroBtns',   { opacity: 0, y: 22, duration: .65 }, 1.28)
-      .from('#heroScroll', { opacity: 0, y: 14, duration: .55 }, 1.48);
+      .from('#heroSymbol', { opacity: 0, scale: 0.75, duration: 0.6, ease: 'back.out(1.4)' }, 0)
+      .from('#heroBadge',  { opacity: 0, y: 12, scale: 0.97, duration: 0.45, ease: EASE.reveal }, 0.25)
+      .to(chars1, { yPercent: 0, opacity: 1, duration: 0.65, stagger: 0.018 }, 0.38)
+      .to(line2,  { yPercent: 0, duration: 0.65, ease: EASE.cinematic }, 0.55)
+      .to(chars3, { yPercent: 0, opacity: 1, duration: 0.65, stagger: 0.016 }, 0.72)
+      .from('#heroDesc',   { opacity: 0, y: 18, duration: 0.5,  ease: EASE.reveal }, 0.95)
+      .from('#heroBtns',   { opacity: 0, y: 14, duration: 0.4,  ease: EASE.reveal }, 1.10)
+      .from('#heroScroll', { opacity: 0, y: 10, duration: 0.35, ease: EASE.reveal }, 1.25);
 
     /* subtle float/breathe after entrance */
     heroTl.add(() => {
       gsap.to('#heroSymbol', {
-        y: -10, duration: 2.8, ease: 'sine.inOut',
+        y: -8, duration: 2.4, ease: 'sine.inOut',
         repeat: -1, yoyo: true
       });
-    }, 1.1);
+    }, 0.8);
   }
 
   /* ── SCROLL PROGRESS ── */
@@ -241,20 +357,23 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  /* ── NAV SMOOTH SCROLL (pin-aware — takılma olmadan) ── */
+  /* ── NAV SMOOTH SCROLL (pin-aware + Lenis) ── */
   function navScrollTo(targetId) {
-    /* Pinned section'lar için ScrollTrigger start pozisyonu kullan */
+    const scrollTo = (top) => {
+      if (window._lenis) window._lenis.scrollTo(top, { duration: 0.9 });
+      else window.scrollTo({ top, behavior: 'smooth' });
+    };
     if (targetId === 'services') {
       const st = ScrollTrigger.getById('svc-pin');
-      if (st) { window.scrollTo({ top: Math.round(st.start), behavior: 'smooth' }); return; }
+      if (st) { scrollTo(Math.round(st.start)); return; }
     }
     const el = document.getElementById(targetId);
     if (!el) return;
     const top = Math.round(el.getBoundingClientRect().top + window.scrollY);
-    window.scrollTo({ top, behavior: 'smooth' });
+    scrollTo(top);
   }
 
-  document.querySelectorAll('.nav-links a, .mobile-link').forEach(link => {
+  document.querySelectorAll('.nav-links a, .mobile-link, .footer-links a').forEach(link => {
     link.addEventListener('click', e => {
       const href = link.getAttribute('href');
       if (!href?.startsWith('#')) return;
@@ -266,11 +385,21 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  /* ── BACK TO TOP ── */
+  const bttBtn = document.getElementById('backToTop');
+  window.addEventListener('scroll', () => {
+    bttBtn?.classList.toggle('visible', window.scrollY > window.innerHeight * 0.6);
+  }, { passive: true });
+  bttBtn?.addEventListener('click', () => {
+    if (window._lenis) window._lenis.scrollTo(0, { duration: 1.4 });
+    else window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
   /* ── SECTION HEADINGS ── */
   document.querySelectorAll('.gs-section-head').forEach(el => {
     gsap.from(el.children, {
       scrollTrigger: { trigger: el, start: 'top 88%', once: true },
-      opacity: 0, y: 34, duration: .85, ease: 'power4.out', stagger: .11,
+      opacity: 0, y: 20, duration: .55, ease: 'power3.out', stagger: .07,
       immediateRender: false,
     });
   });
@@ -279,7 +408,7 @@ window.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.gs-reveal').forEach((el, i) => {
     gsap.from(el, {
       scrollTrigger: { trigger: el, start: 'top 90%', once: true },
-      opacity: 0, x: i % 2 === 0 ? -40 : 40, duration: .85, ease: 'power3.out',
+      opacity: 0, x: i % 2 === 0 ? -24 : 24, duration: .55, ease: 'power3.out',
       immediateRender: false,
     });
   });
@@ -288,120 +417,93 @@ window.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.gs-value').forEach((el, i) => {
     gsap.from(el, {
       scrollTrigger: { trigger: el, start: 'top 92%', once: true },
-      opacity: 0, x: -24, duration: .55, ease: 'power3.out', delay: i * .1,
+      opacity: 0, x: -16, duration: .4, ease: 'power3.out', delay: i * .07,
       immediateRender: false,
     });
   });
 
-  /* ── SERVICES CAROUSEL ── */
-  const svcPanels    = Array.from(document.querySelectorAll('.svc-slide'));
+  /* ── SERVICES CAROUSEL — snap + scrub ── */
+  const svcPanels    = Array.from(document.querySelectorAll('.svc-track .svc-slide'));
   const svcDots      = document.querySelectorAll('.sdot');
   const svcCurrentEl = document.getElementById('svcCurrent');
   const svcPbFill    = document.getElementById('svcPbFill');
   const svcHint      = document.getElementById('svcScrollHint');
-  let svcActive = 0;
-  let svcBusy   = false;  /* animasyon devam ediyor mu? */
-  let svcTarget = -1;     /* meşgulken gelen son hedef (-1 = yok) */
 
-  function showSvcPanel(idx, dir) {
-    if (idx === svcActive || idx < 0 || idx >= svcPanels.length) return;
-    const prev = svcPanels[svcActive];
-    const next = svcPanels[idx];
-    const d    = (dir === undefined) ? (idx > svcActive ? 1 : -1) : dir;
-
-    gsap.set(prev, { zIndex: 2 });
-    gsap.set(next, { zIndex: 3 });
-    next.classList.add('active');
-    svcActive = idx;
-    svcBusy   = true;
-
-    /* Dikey wipe — aşağı kaydır → yeni panel alttan gelir, yukarı kaydır → üstten */
-    gsap.fromTo(next,
-      { clipPath: d > 0 ? 'inset(0 0 100% 0)' : 'inset(100% 0 0 0)' },
-      { clipPath: 'inset(0 0 0% 0)', duration: .65, ease: 'power3.inOut', overwrite: true }
-    );
-
-    /* Metin dikey kayarak gelir */
-    gsap.fromTo(next.querySelector('.svc-left'),
-      { y: d * 40, opacity: 0 },
-      { y: 0, opacity: 1, duration: .55, ease: 'power3.out', delay: .22, overwrite: true }
-    );
-
-    /* UI */
-    svcDots.forEach((dot, i) => dot.classList.toggle('active', i === idx));
-    if (svcCurrentEl) svcCurrentEl.textContent = String(idx + 1).padStart(2, '0');
-    if (svcPbFill)    svcPbFill.style.width = ((idx / (svcPanels.length - 1)) * 100) + '%';
-    if (svcHint && idx > 0) gsap.to(svcHint, { opacity: 0, duration: .3 });
-
-    /* Animasyon bitince temizle + kilidi aç */
-    gsap.delayedCall(0.68, () => {
-      prev.classList.remove('active');
-      gsap.set(prev, {
-        clipPath: d > 0 ? 'inset(100% 0 0 0)' : 'inset(0 0 100% 0)',
-        zIndex: 1,
-      });
-      gsap.set(prev.querySelector('.svc-left'), { clearProps: 'y,opacity' });
-      svcBusy = false;
-
-      /* Biz animasyon yaparken hedef değiştiyse hemen oraya git */
-      if (svcTarget !== -1 && svcTarget !== svcActive) {
-        const t = svcTarget; svcTarget = -1;
-        showSvcPanel(t, t > svcActive ? 1 : -1);
-      } else {
-        svcTarget = -1;
-      }
-    });
-  }
-
-  /* ── Initialize ── */
   if (svcPanels.length) {
-    gsap.set(svcPanels[0], { clipPath: 'inset(0 0% 0 0%)', zIndex: 2 });
+    const N = svcPanels.length;
+
+    /* Başlangıç durumları */
     svcPanels.forEach((p, i) => {
+      gsap.set(p, { yPercent: i === 0 ? 0 : 100 });
+      p.classList.toggle('active', i === 0);
       if (i > 0) {
-        gsap.set(p, { clipPath: 'inset(0 0 0 100%)', zIndex: 1 });
-        gsap.set(p.querySelector('.svc-left'), { opacity: 0 });
+        gsap.set(p.querySelector('.svc-left'),  { opacity: 0, y: 28 });
+        gsap.set(p.querySelector('.svc-photo'), { scale: 1.12 });
       }
     });
 
-    /* ── ScrollTrigger PIN ── */
+    const svcTl = gsap.timeline({ defaults: { ease: 'none', duration: 1 } }); // scrub timeline — duration oransal, değiştirilmez
+    for (let i = 0; i < N - 1; i++) {
+      const exitLeft   = svcPanels[i].querySelector('.svc-left');
+      const enterLeft  = svcPanels[i + 1].querySelector('.svc-left');
+      const exitPhoto  = svcPanels[i].querySelector('.svc-photo');
+      const enterPhoto = svcPanels[i + 1].querySelector('.svc-photo');
+
+      svcTl
+        .to(svcPanels[i],     { yPercent: -100 }, i)
+        .to(svcPanels[i + 1], { yPercent: 0    }, i)
+        /* Görsel Ken Burns: çıkan hafifçe küçülür, giren büyükten normale gelir */
+        .to(exitPhoto,  { scale: 0.93, duration: 1 }, i)
+        .fromTo(enterPhoto,
+          { scale: 1.12 },
+          { scale: 1.0,  duration: 1 },
+          i
+        )
+        /* Sol metin: çıkarken yukarı uçar */
+        .to(exitLeft,  { opacity: 0, y: -24, duration: 0.35 }, i)
+        /* Sol metin: girerken aşağıdan süzülür */
+        .fromTo(enterLeft,
+          { opacity: 0, y: 28 },
+          { opacity: 1, y: 0,  duration: 0.45 },
+          i + 0.55
+        );
+    }
+
     ScrollTrigger.create({
       id: 'svc-pin',
       trigger: '#services',
       pin: true,
       pinSpacing: true,
-      anticipatePin: 1,          /* sabitleme öncesi titremeyi önler */
       start: 'top top',
-      end: () => `+=${(svcPanels.length - 1) * window.innerHeight}`,
-
+      end: () => `+=${(N - 1) * window.innerHeight}`,
+      scrub: true,
+      snap: {
+        snapTo: 1 / (N - 1),
+        duration: { min: 0.18, max: 0.5 },
+        ease: 'power3.inOut',
+        delay: 0.02,
+      },
+      animation: svcTl,
       onUpdate(self) {
-        const newIdx = Math.min(
-          svcPanels.length - 1,
-          Math.floor(self.progress * svcPanels.length)
-        );
-        if (newIdx === svcActive) { svcTarget = -1; return; }
-
-        if (svcBusy) {
-          /* Meşgulken: hedefi güncelle, animasyon bitince uygulanacak */
-          svcTarget = newIdx;
-        } else {
-          svcTarget = -1;
-          showSvcPanel(newIdx, newIdx > svcActive ? 1 : -1);
-        }
+        const idx = Math.min(N - 1, Math.round(self.progress * (N - 1)));
+        svcPanels.forEach((p, i) => p.classList.toggle('active', i === idx));
+        svcDots.forEach((dot, i) => dot.classList.toggle('active', i === idx));
+        if (svcCurrentEl) svcCurrentEl.textContent = String(idx + 1).padStart(2, '0');
+        if (svcPbFill) svcPbFill.style.width = (self.progress * 100) + '%';
+        if (svcHint) svcHint.style.opacity = self.progress > 0.05 ? '0' : '1';
       },
     });
 
-    /* ── Dot navigation ── */
     svcDots.forEach((dot, i) => {
       dot.addEventListener('click', () => {
         const st = ScrollTrigger.getById('svc-pin');
         if (!st) return;
-        const extra   = (svcPanels.length - 1) * window.innerHeight;
-        const portion = i === 0 ? 0 : (i / svcPanels.length + 0.02) * extra;
+        const extra   = (N - 1) * window.innerHeight;
+        const portion = i === 0 ? 0 : (i / (N - 1)) * extra;
         window.scrollTo({ top: st.start + portion, behavior: 'smooth' });
       });
     });
 
-    /* ── Cursor ring hover ── */
     document.querySelectorAll('.svc-slide, .svc-btn').forEach(el => {
       el.addEventListener('mouseenter', () => document.querySelector('.cursor-ring')?.classList.add('hover'));
       el.addEventListener('mouseleave', () => document.querySelector('.cursor-ring')?.classList.remove('hover'));
@@ -412,8 +514,8 @@ window.addEventListener('DOMContentLoaded', () => {
   const fp = document.getElementById('featuredProject');
   if (fp) {
     gsap.from(fp, {
-      scrollTrigger: { trigger: fp, start: 'top 92%', once: true },
-      opacity: 0, y: 48, duration: .8, ease: 'power3.out',
+      scrollTrigger: { trigger: fp, start: 'top 90%', once: true },
+      opacity: 0, y: 28, duration: .5, ease: 'power3.out',
       immediateRender: false,
     });
   }
@@ -497,7 +599,7 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 
     /* Ring grows on hover of interactive elements */
-    document.querySelectorAll('a, button, .svc-card, .featured-project, .svc-btn').forEach(el => {
+    document.querySelectorAll('a, button, .svc-card, .featured-project, .svc-btn, .back-to-top').forEach(el => {
       el.addEventListener('mouseenter', () => ring.classList.add('hover'));
       el.addEventListener('mouseleave', () => ring.classList.remove('hover'));
     });
@@ -638,4 +740,200 @@ window.addEventListener('DOMContentLoaded', () => {
   modalClose.addEventListener('click', closeModal);
   modalOverlay.addEventListener('click', e => { if (e.target === modalOverlay) closeModal(); });
   document.getElementById('modalCta').addEventListener('click', closeModal);
+
+  /* ═══════════════════════════════════════════════════
+     KATMAN 1 — Hızlı kazanımlar
+     ═══════════════════════════════════════════════════ */
+
+  /* ── MARQUEE VELOCITY (GSAP ticker + Lenis velocity) ── */
+  const marqueeTrack = document.querySelector('.marquee-track');
+  if (marqueeTrack) {
+    let mPos      = 0;
+    let mVelocity = 0;
+    const mBase   = 0.55; // px/frame temel hız
+    const mInner  = marqueeTrack.querySelector('.marquee-inner');
+
+    lenis?.on('scroll', ({ velocity }) => {
+      mVelocity = velocity;
+    });
+
+    gsap.ticker.add(() => {
+      const speed = mBase + Math.min(Math.abs(mVelocity) * 0.45, 6);
+      mPos -= speed;
+      const w = mInner?.offsetWidth || 1;
+      if (Math.abs(mPos) >= w) mPos += w; // seamless loop
+      gsap.set(marqueeTrack, { x: mPos });
+    });
+  }
+
+  /* ── FEATURED PROJECT — Clip-path reveal (daha sinematik) ── */
+  if (fp) {
+    gsap.fromTo(fp,
+      { clipPath: 'inset(0 100% 0 0 round 16px)', opacity: 1 },
+      {
+        clipPath: 'inset(0 0% 0 0 round 16px)',
+        duration: 0.7, ease: 'power3.inOut',
+        scrollTrigger: { trigger: fp, start: 'top 88%', once: true },
+        immediateRender: false,
+      }
+    );
+  }
+
+  /* ═══════════════════════════════════════════════════
+     KATMAN 2 — Sinematik dokunuşlar
+     ═══════════════════════════════════════════════════ */
+
+  /* ── FEATURED PROJECT — 3D Magnetic Tilt ── */
+  const fpEl     = document.getElementById('featuredProject');
+  const fpVisual = fpEl?.querySelector('.fp-visual');
+  if (fpEl && fpVisual) {
+    fpEl.addEventListener('mousemove', e => {
+      const { left, top, width, height } = fpEl.getBoundingClientRect();
+      const x = (e.clientX - left) / width  - 0.5;
+      const y = (e.clientY - top)  / height - 0.5;
+      gsap.to(fpEl, {
+        rotationY:  x * 7,
+        rotationX: -y * 5,
+        transformPerspective: 1200,
+        ease: 'power2.out', duration: 0.5,
+      });
+      gsap.to(fpVisual.querySelector('.fp-bg-img'), {
+        x: x * 12, y: y * 8,
+        ease: 'power2.out', duration: 0.7,
+      });
+    });
+    fpEl.addEventListener('mouseleave', () => {
+      gsap.to(fpEl, { rotationY: 0, rotationX: 0, duration: 0.9, ease: 'elastic.out(1, 0.6)' });
+      gsap.to(fpVisual.querySelector('.fp-bg-img'), { x: 0, y: 0, duration: 0.7, ease: 'power2.out' });
+    });
+  }
+
+  /* ── CURSOR — "İNCELE →" text on featured project hover ── */
+  const cursorRing = document.querySelector('.cursor-ring');
+  if (cursorRing) {
+    /* Cursor içine label ekle */
+    const label = document.createElement('span');
+    label.className = 'cursor-label';
+    label.innerHTML = 'İNCELE<br>→';
+    cursorRing.appendChild(label);
+
+    fpEl?.addEventListener('mouseenter', () => cursorRing.classList.add('cursor-view'));
+    fpEl?.addEventListener('mouseleave', () => cursorRing.classList.remove('cursor-view'));
+  }
+
+  /* ═══════════════════════════════════════════════════
+     KATMAN 3 — Sayfa geçiş perdesi
+     ═══════════════════════════════════════════════════ */
+
+  const ptCurtain = document.getElementById('ptCurtain');
+  const ptLogo    = ptCurtain?.querySelector('.pt-logo');
+
+  /* Sayfa AÇILIŞI — perde kapanı kaldır */
+  if (ptCurtain) {
+    gsap.set(ptCurtain, { yPercent: 0 });
+    const openTl = gsap.timeline({ delay: 0.05 });
+    openTl
+      .to(ptLogo,    { opacity: 0.9, duration: 0.25, ease: 'power2.out' }, 0)
+      .to(ptCurtain, { yPercent: -100, duration: 0.6, ease: 'power4.inOut' }, 0.18)
+      .set(ptCurtain, { pointerEvents: 'none' });
+  }
+
+  /* Sayfa ÇIKIŞI — proje sayfasına geçişte perde kapat */
+  document.querySelectorAll('a[href]').forEach(link => {
+    const href = link.getAttribute('href');
+    if (!href || href.startsWith('#') || href.startsWith('http') || href.startsWith('mailto') || href.startsWith('tel')) return;
+
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      if (!ptCurtain) { window.location.href = href; return; }
+
+      lenis?.stop();
+      ptCurtain.style.pointerEvents = 'all';
+
+      const exitTl = gsap.timeline({
+        onComplete: () => { window.location.href = href; }
+      });
+      exitTl
+        .set(ptCurtain,  { yPercent: 100 })
+        .to(ptCurtain,   { yPercent: 0, duration: 0.55, ease: 'power4.inOut' }, 0)
+        .to(ptLogo,      { opacity: 0.9, duration: 0.22, ease: 'power2.out' }, 0.15);
+    });
+  });
+
+});
+/* ============================================================
+   SCRAMBLE COUNTER — Stats band için Matrix-tarzı sayı animasyonu
+   ============================================================ */
+window.addEventListener('DOMContentLoaded', () => {
+  const scrambleNums = document.querySelectorAll('.sb-num[data-scramble]');
+  if (!scrambleNums.length) return;
+
+  const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function scrambleAnimate(el) {
+    const target = parseInt(el.dataset.scramble, 10);
+    const suffix = el.dataset.suffix || '';
+    const staticText = el.dataset.static;
+    const duration = 1800;
+    const start = performance.now();
+
+    if (REDUCED) {
+      el.textContent = staticText || (target + suffix);
+      return;
+    }
+
+    function frame(now) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      // Easing — power3.out
+      const eased = 1 - Math.pow(1 - progress, 3);
+
+      if (staticText) {
+        // Static text mode (e.g. "A+") — scramble random chars then settle
+        if (progress < 0.85) {
+          const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ#@%&*';
+          const len = staticText.length;
+          let scrambled = '';
+          for (let i = 0; i < len; i++) {
+            scrambled += chars[Math.floor(Math.random() * chars.length)];
+          }
+          el.textContent = scrambled;
+        } else {
+          el.textContent = staticText;
+        }
+      } else {
+        // Number scramble — show random until close to end, then settle
+        if (progress < 0.7) {
+          const ghost = Math.floor(Math.random() * (target * 2));
+          el.textContent = ghost + suffix;
+        } else {
+          const current = Math.round(target * eased);
+          el.textContent = current + suffix;
+        }
+      }
+
+      if (progress < 1) {
+        requestAnimationFrame(frame);
+      } else {
+        el.textContent = staticText || (target + suffix);
+      }
+    }
+
+    requestAnimationFrame(frame);
+  }
+
+  // Trigger when stats band enters viewport
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        scrambleNums.forEach((el, i) => {
+          setTimeout(() => scrambleAnimate(el), i * 120);
+        });
+        io.disconnect();
+      }
+    });
+  }, { threshold: 0.4 });
+
+  const band = document.getElementById('statsBand');
+  if (band) io.observe(band);
 });

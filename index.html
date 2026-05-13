@@ -9,6 +9,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+  <!-- Sayfa ilk render'da scroll'u kilitle — JS yüklenmeden önce -->
+  <style id="scroll-lock">html,body{overflow:hidden !important;}</style>
 </head>
 <body>
 
@@ -162,6 +164,30 @@
     </div>
   </div>
 
+  <!-- ===== STATS BAND — Rakamlarla Biz ===== -->
+  <section class="stats-band" id="statsBand">
+    <div class="container">
+      <div class="sb-grid">
+        <div class="sb-item">
+          <div class="sb-num" data-scramble="3">3</div>
+          <div class="sb-label">Tamamlanan &amp; Aktif Proje</div>
+        </div>
+        <div class="sb-item">
+          <div class="sb-num" data-scramble="64">64</div>
+          <div class="sb-label">Aktif Yapım Dairesi</div>
+        </div>
+        <div class="sb-item">
+          <div class="sb-num" data-scramble="100" data-suffix="%">100%</div>
+          <div class="sb-label">Aile Sahipliği</div>
+        </div>
+        <div class="sb-item">
+          <div class="sb-num" data-scramble="0" data-suffix="✓" data-static="A+">A+</div>
+          <div class="sb-label">Enerji Sınıfı Hedef</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ===== PROJECTS ===== -->
   <section class="projects section" id="projects">
     <div class="container">
@@ -177,12 +203,9 @@
       <!-- ── Öne Çıkan Proje ── -->
       <a href="project.html" class="featured-project" id="featuredProject">
         <div class="fp-visual">
-          <div class="fp-bg"></div>
+          <img src="images/residence.jpg" alt="Alptekin Residences" class="fp-bg-img">
           <div class="fp-overlay"></div>
           <div class="fp-badge"><span class="fp-dot"></span>Aktif Proje</div>
-          <div class="fp-building-hint">
-            <span style="font-size:72px;filter:drop-shadow(0 8px 24px rgba(194,136,44,0.4))">🏢</span>
-          </div>
         </div>
         <div class="fp-info">
           <div class="fp-eyebrow">Konut · Adana</div>
@@ -190,7 +213,7 @@
           <p class="fp-desc">Modern yaşam standartlarını aile sıcaklığıyla buluşturan, özenle tasarlanmış prestijli konut projemiz. Her detayda kalite, her katta konfor.</p>
           <div class="fp-specs">
             <div class="fp-spec"><span>🏢</span>8 Kat</div>
-            <div class="fp-spec"><span>🏠</span>48 Daire</div>
+            <div class="fp-spec"><span>🏠</span>64 Daire</div>
             <div class="fp-spec"><span>🛏️</span>1+1 &amp; 2+1</div>
             <div class="fp-spec"><span>⭐</span>A+ Enerji</div>
             <div class="fp-spec"><span>🛗</span>2 Asansör</div>
@@ -205,14 +228,49 @@
         </div>
       </a>
 
-      <!-- Yakında -->
-      <div class="fp-coming-soon">
-        <div class="fps-label">Yeni projeler yakında eklenecek</div>
-        <div class="fps-dots">
-          <div class="fps-dot-item">🏗️ Proje 2</div>
-          <div class="fps-dot-item">🏗️ Proje 3</div>
-          <div class="fps-dot-item">🏗️ Proje 4</div>
-        </div>
+      <!-- Tamamlanan Projeler -->
+      <div class="completed-header">
+        <div class="completed-eyebrow">Aile Mirası</div>
+        <h3 class="completed-title">Tamamlanan Projelerimiz</h3>
+        <p class="completed-desc">Her bina, bir hikâye. Her proje, bir aile sözüdür.</p>
+      </div>
+      <div class="completed-grid">
+        <article class="completed-card" data-completed="1">
+          <div class="cc-visual">
+            <div class="cc-pattern"></div>
+            <div class="cc-num">01</div>
+            <div class="cc-icon-large">🏢</div>
+          </div>
+          <div class="cc-body">
+            <div class="cc-meta">
+              <span class="cc-tag">Apartman</span>
+              <span class="cc-year">Tamamlandı</span>
+            </div>
+            <h4 class="cc-title">Alptekin Apartmanı</h4>
+            <p class="cc-desc">Aile geleneğinin temellerini atan, dayanıklı ve modern yaşam alanları sunan ilk apartman projemiz.</p>
+            <div class="cc-tags">
+              <span>Konut</span><span>Çukurova</span><span>Modern Mimari</span>
+            </div>
+          </div>
+        </article>
+        <article class="completed-card" data-completed="2">
+          <div class="cc-visual cc-visual-alt">
+            <div class="cc-pattern"></div>
+            <div class="cc-num">02</div>
+            <div class="cc-icon-large">🏡</div>
+          </div>
+          <div class="cc-body">
+            <div class="cc-meta">
+              <span class="cc-tag">Villa</span>
+              <span class="cc-year">Tamamlandı</span>
+            </div>
+            <h4 class="cc-title">Özel Villa Projesi</h4>
+            <p class="cc-desc">Müstakil yaşamın konforuyla mimari estetiği birleştiren, anahtar teslim villa projemiz.</p>
+            <div class="cc-tags">
+              <span>Müstakil</span><span>Bahçeli</span><span>Anahtar Teslim</span>
+            </div>
+          </div>
+        </article>
       </div>
     </div>
   </section>
@@ -480,11 +538,11 @@
         <div class="contact-form-wrap gs-reveal">
           <form class="contact-form" id="contactForm">
             <div class="form-row">
-              <div class="form-group"><label class="form-label">Ad Soyad</label><input type="text" class="form-input" placeholder="Adınız Soyadınız" required /></div>
-              <div class="form-group"><label class="form-label">Telefon</label><input type="tel" class="form-input" placeholder="0555 000 00 00" /></div>
+              <div class="form-group floating"><input type="text" class="form-input" placeholder=" " required /><label class="form-label">Ad Soyad</label></div>
+              <div class="form-group floating"><input type="tel" class="form-input" placeholder=" " /><label class="form-label">Telefon</label></div>
             </div>
-            <div class="form-group"><label class="form-label">E-posta</label><input type="email" class="form-input" placeholder="ornek@email.com" required /></div>
-            <div class="form-group"><label class="form-label">Hizmet Türü</label>
+            <div class="form-group floating"><input type="email" class="form-input" placeholder=" " required /><label class="form-label">E-posta</label></div>
+            <div class="form-group form-group-select"><label class="form-label form-label-static">Hizmet Türü</label>
               <select class="form-input">
                 <option value="">Hizmet Seçin</option>
                 <option>Konut İnşaatı</option>
@@ -494,7 +552,7 @@
                 <option>Diğer</option>
               </select>
             </div>
-            <div class="form-group"><label class="form-label">Projeniz Hakkında</label><textarea class="form-input" placeholder="Projenizi kısaca anlatın..."></textarea></div>
+            <div class="form-group floating"><textarea class="form-input" placeholder=" "></textarea><label class="form-label">Projeniz Hakkında</label></div>
             <button type="submit" class="btn btn-primary btn-full magnetic">
               <span>Mesaj Gönder</span>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -505,6 +563,11 @@
       </div>
     </div>
   </section>
+
+  <!-- ===== BACK TO TOP ===== -->
+  <button class="back-to-top" id="backToTop" aria-label="Yukarı çık">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+  </button>
 
   <!-- ===== FOOTER ===== -->
   <footer class="footer">
@@ -584,6 +647,14 @@
     </div>
   </div>
 
+  <!-- PAGE TRANSITION CURTAIN -->
+  <div class="pt-curtain" id="ptCurtain">
+    <div class="pt-curtain-inner">
+      <img src="logo.png" alt="" class="pt-logo">
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="script.js"></script>
