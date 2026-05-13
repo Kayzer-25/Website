@@ -4,8 +4,26 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Alptekin Residences – Yeni Alptekin İnşaat</title>
+  <meta name="description" content="Adana Çukurova'da prestijli konut projesi. 8 kat, 64 daire, A+ enerji sınıfı, 1+1 ve 2+1 seçenekleri." />
+  <meta name="theme-color" content="#050810" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Alptekin Residences – Yeni Alptekin İnşaat" />
+  <meta property="og:description" content="Adana Çukurova'da prestijli konut projesi. 8 kat, 64 daire." />
+  <meta property="og:image" content="images/residence.webp" />
+  <meta property="og:locale" content="tr_TR" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="icon" type="image/webp" href="logo.webp" />
+  <link rel="apple-touch-icon" href="logo.webp" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+
+  <link rel="preload" as="image" href="images/residence.webp" type="image/webp" />
+
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Space+Grotesk:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="style.css"/>
   <link rel="stylesheet" href="project.css"/>
@@ -15,7 +33,7 @@
 <nav class="navbar" id="navbar">
   <div class="nav-container">
     <a href="index.html" class="logo">
-      <img src="logo.webp" alt="Yeni Alptekin İnşaat" class="logo-mark-img">
+      <img decoding="async" src="logo.webp" alt="Yeni Alptekin İnşaat" class="logo-mark-img">
       <div class="logo-text">
         <span class="logo-main">YENİ ALPTEKİN</span>
         <span class="logo-sub">İNŞAAT</span>
@@ -44,7 +62,7 @@
 <!-- BÖLÜM 1 · HERO -->
 <section class="ph-hero" id="phHero">
   <div class="ph-building-wrap" id="phBuildingWrap">
-    <img src="images/residence.webp" alt="Alptekin Residences gece görünümü" class="ph-bg-img">
+    <img decoding="async" fetchpriority="high" src="images/residence.webp" alt="Alptekin Residences gece görünümü" class="ph-bg-img">
     <div class="ph-overlay"></div>
   </div>
   <div class="ph-content" id="phContent">
@@ -98,7 +116,7 @@
     <!-- 01 · Ön Cephe Gündüz -->
     <div class="view-panel active" data-idx="0">
       <div class="vp-bg">
-        <img src="images/view-on-gunduz.webp" alt="Ön Cephe Gündüz" class="vp-photo" loading="lazy">
+        <img decoding="async" src="images/view-on-gunduz.webp" alt="Ön Cephe Gündüz" class="vp-photo" loading="lazy">
       </div>
       <div class="vp-info">
         <div class="vpi-num">01</div>
@@ -111,7 +129,7 @@
     <!-- 02 · Arka Cephe Gündüz -->
     <div class="view-panel" data-idx="1">
       <div class="vp-bg">
-        <img src="images/view-arka-gunduz.webp" alt="Arka Cephe Gündüz" class="vp-photo" loading="lazy">
+        <img decoding="async" src="images/view-arka-gunduz.webp" alt="Arka Cephe Gündüz" class="vp-photo" loading="lazy">
       </div>
       <div class="vp-info">
         <div class="vpi-num">02</div>
@@ -124,7 +142,7 @@
     <!-- 03 · Yan Cephe Gündüz -->
     <div class="view-panel" data-idx="2">
       <div class="vp-bg">
-        <img src="images/view-yan-gunduz.webp" alt="Yan Cephe Gündüz" class="vp-photo" loading="lazy">
+        <img decoding="async" src="images/view-yan-gunduz.webp" alt="Yan Cephe Gündüz" class="vp-photo" loading="lazy">
       </div>
       <div class="vp-info">
         <div class="vpi-num">03</div>
@@ -137,7 +155,7 @@
     <!-- 04 · Ön Cephe Alternatif -->
     <div class="view-panel" data-idx="3">
       <div class="vp-bg">
-        <img src="images/view-on-gunduz2.webp" alt="Ön Cephe Alternatif" class="vp-photo" loading="lazy">
+        <img decoding="async" src="images/view-on-gunduz2.webp" alt="Ön Cephe Alternatif" class="vp-photo" loading="lazy">
       </div>
       <div class="vp-info">
         <div class="vpi-num">04</div>
@@ -150,7 +168,7 @@
     <!-- 05 · Gece Görünümü -->
     <div class="view-panel" data-idx="4">
       <div class="vp-bg">
-        <img src="images/view-gece.webp" alt="Gece Görünümü" class="vp-photo" loading="lazy">
+        <img decoding="async" src="images/view-gece.webp" alt="Gece Görünümü" class="vp-photo" loading="lazy">
       </div>
       <div class="vp-info">
         <div class="vpi-num">05</div>
@@ -278,7 +296,7 @@
         </div>
         <div class="pb-image-wrap">
           <div class="pb-image-inner">
-            <img src="plans/plan-1.jpg" alt="Kat Planı" class="pb-img" loading="lazy"/>
+            <img decoding="async" src="plans/plan-1.jpg" alt="Kat Planı" class="pb-img" loading="lazy"/>
           </div>
           <div class="pb-image-label">KAT PLANI</div>
         </div>
@@ -292,7 +310,7 @@
       <div class="pb-layout pb-layout-left">
         <div class="pb-image-wrap">
           <div class="pb-image-inner">
-            <img src="plans/plan-2.jpg" alt="2+1 Tip Daire" class="pb-img" loading="lazy"/>
+            <img decoding="async" src="plans/plan-2.jpg" alt="2+1 Tip Daire" class="pb-img" loading="lazy"/>
           </div>
           <div class="pb-image-label">2+1 TİP DAİRE</div>
         </div>
@@ -337,7 +355,7 @@
         </div>
         <div class="pb-image-wrap">
           <div class="pb-image-inner">
-            <img src="plans/plan-3.jpg" alt="1+1 Tip Daire" class="pb-img" loading="lazy"/>
+            <img decoding="async" src="plans/plan-3.jpg" alt="1+1 Tip Daire" class="pb-img" loading="lazy"/>
           </div>
           <div class="pb-image-label">1+1 TİP DAİRE</div>
         </div>
@@ -369,12 +387,12 @@
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
-        <a href="index.html" class="logo"><img src="logo.webp" alt="Yeni Alptekin İnşaat" class="logo-mark-img"><div class="logo-text"><span class="logo-main">YENİ ALPTEKİN</span><span class="logo-sub">İNŞAAT</span></div></a>
+        <a href="index.html" class="logo"><img decoding="async" src="logo.webp" alt="Yeni Alptekin İnşaat" class="logo-mark-img"><div class="logo-text"><span class="logo-main">YENİ ALPTEKİN</span><span class="logo-sub">İNŞAAT</span></div></a>
         <p>Geleceği birlikte inşa ediyoruz.</p>
       </div>
       <div class="footer-col"><h4>Proje</h4><ul class="footer-links"><li><a href="#phHero">Genel Bakış</a></li><li><a href="#plans">Kat Planları</a></li><li><a href="#projCta">İletişim</a></li></ul></div>
       <div class="footer-col"><h4>Daire Tipleri</h4><ul class="footer-links"><li><a href="#planBlock1">Kat Planı</a></li><li><a href="#planBlock2">2+1 Tip</a></li><li><a href="#planBlock3">1+1 Tip</a></li></ul></div>
-      <div class="footer-col"><h4>İletişim</h4><ul class="footer-links"><li><a href="tel:+491785391028">+49 178 539 10 28</a></li><li><a href="#">info@yenialptekininsaat.com</a></li><li><a href="#">İstanbul, Türkiye</a></li></ul></div>
+      <div class="footer-col"><h4>İletişim</h4><ul class="footer-links"><li><a href="tel:+491785391028">+49 178 539 10 28</a></li><li><a href="mailto:alptekinenesefe@gmail.com">alptekinenesefe@gmail.com</a></li><li><a href="#">İstanbul, Türkiye</a></li></ul></div>
     </div>
     <div class="footer-bottom">
       <p>© 2025 <span>Yeni Alptekin İnşaat</span>. Tüm hakları saklıdır.</p>
@@ -388,7 +406,7 @@
   <button class="lb-close" id="lbClose">✕</button>
   <div class="lb-hint">Büyütmek için tıklayın · Kapatmak için ESC</div>
   <div class="lb-inner">
-    <img id="lbImg" src="" alt="Kat Planı"/>
+    <img decoding="async" id="lbImg" src="" alt="Kat Planı"/>
     <div class="lb-zoom-ctrl">
       <button id="lbZoomIn">+</button>
       <button id="lbZoomOut">−</button>
@@ -412,7 +430,7 @@
 <!-- PAGE TRANSITION CURTAIN -->
 <div class="pt-curtain" id="ptCurtain">
   <div class="pt-curtain-inner">
-    <img src="logo.webp" alt="" class="pt-logo">
+    <img decoding="async" src="logo.webp" alt="" class="pt-logo">
   </div>
 </div>
 
