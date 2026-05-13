@@ -507,7 +507,7 @@ body.cursor-active a, body.cursor-active button { cursor: none; }
 .about-visual { position: relative; }
 
 /* Optional background photo behind the about card
-   — becomes visible automatically when 'images/about.jpg' is saved */
+   — becomes visible automatically when 'images/about.webp' is saved */
 .about-bg-photo {
   position: absolute;
   inset: -20px;
@@ -1618,4 +1618,50 @@ select.form-input { cursor: pointer; }
 /* Nav CTA button — kapsayan elementin hover'ı tetikler */
 .nav-cta:hover svg {
   transform: rotate(0deg);
+}
+
+/* ============================================================
+   MOBİL PERFORMANS OPTİMİZASYONU
+   .is-mobile class'ı html'e JS tarafından eklenir
+   ============================================================ */
+.is-mobile .cursor-dot,
+.is-mobile .cursor-ring {
+  display: none !important;
+}
+/* Ağır blur filtre/shadow'ları mobilde azalt */
+.is-mobile .is-logo-wrap {
+  filter: drop-shadow(0 0 20px rgba(191,154,80,0.4));
+}
+.is-mobile .hero-bg-logo-img {
+  filter: none;
+}
+/* Backdrop-filter mobilde devre dışı — iOS Safari'nin en büyük performans katili */
+.is-mobile .navbar,
+.is-mobile .mobile-menu,
+.is-mobile .svc-modal-panel,
+.is-mobile .modal-content {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+/* Mix-blend-mode mobilde devre dışı */
+.is-mobile .cursor-dot {
+  mix-blend-mode: normal;
+}
+/* will-change yalnızca masaüstünde — mobilde GPU bellek tüketiyor */
+@media (max-width: 768px) {
+  .marquee-track,
+  .reveal-inner,
+  .hero-bg-logo-img,
+  .fp-bg-img,
+  .vp-bg,
+  .vp-photo {
+    will-change: auto;
+  }
+  /* Mobilde 3D perspective kullanan elementleri düzleştir */
+  .featured-project,
+  .fp-card {
+    transform-style: flat !important;
+  }
+  /* Hover-only animasyonlar mobilde anlamsız + GPU yakar */
+  .magnetic { transform: none !important; }
 }

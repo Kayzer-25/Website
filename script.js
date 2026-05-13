@@ -108,9 +108,13 @@ window.addEventListener('DOMContentLoaded', () => {
     cinematic: 1.20,
   };
 
-  /* ── LENİS SMOOTH SCROLL ── */
+  /* ── MOBİL TESPİTİ ── Lenis ve ağır efektler mobilde kapatılır */
+  const IS_MOBILE = window.matchMedia('(max-width: 768px)').matches || 'ontouchstart' in window;
+  if (IS_MOBILE) document.documentElement.classList.add('is-mobile');
+
+  /* ── LENİS SMOOTH SCROLL ── (mobilde devre dışı, native scroll daha akıcı) */
   let lenis = null;
-  if (!REDUCED_MOTION && typeof Lenis !== 'undefined') {
+  if (!REDUCED_MOTION && !IS_MOBILE && typeof Lenis !== 'undefined') {
     lenis = new Lenis({
       duration: 0.85,
       easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
