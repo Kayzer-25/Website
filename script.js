@@ -543,31 +543,33 @@ window.addEventListener('DOMContentLoaded', () => {
   mobileClose.addEventListener('click', closeMobile);
   document.querySelectorAll('.mobile-link').forEach(l => l.addEventListener('click', closeMobile));
 
-  /* ── 3D TILT ── */
-  document.querySelectorAll('.tilt-card').forEach(card => {
-    card.addEventListener('mousemove', e => {
-      const { left, top, width, height } = card.getBoundingClientRect();
-      const x = (e.clientX - left) / width  - .5;
-      const y = (e.clientY - top)  / height - .5;
-      gsap.to(card, { rotationY: x * 12, rotationX: -y * 12, transformPerspective: 800, duration: .4, ease: 'power2.out' });
+  /* ── 3D TILT ── (mobilde devre dışı — touch'ta mousemove olmaz, sadece CPU yakar) */
+  if (!IS_MOBILE) {
+    document.querySelectorAll('.tilt-card').forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const { left, top, width, height } = card.getBoundingClientRect();
+        const x = (e.clientX - left) / width  - .5;
+        const y = (e.clientY - top)  / height - .5;
+        gsap.to(card, { rotationY: x * 12, rotationX: -y * 12, transformPerspective: 800, duration: .4, ease: 'power2.out' });
+      });
+      card.addEventListener('mouseleave', () => {
+        gsap.to(card, { rotationY: 0, rotationX: 0, duration: .6, ease: 'elastic.out(1, .6)' });
+      });
     });
-    card.addEventListener('mouseleave', () => {
-      gsap.to(card, { rotationY: 0, rotationX: 0, duration: .6, ease: 'elastic.out(1, .6)' });
-    });
-  });
 
-  /* ── MAGNETIC ── */
-  document.querySelectorAll('.magnetic').forEach(btn => {
-    btn.addEventListener('mousemove', e => {
-      const { left, top, width, height } = btn.getBoundingClientRect();
-      const x = (e.clientX - left - width  / 2) * .35;
-      const y = (e.clientY - top  - height / 2) * .35;
-      gsap.to(btn, { x, y, duration: .4, ease: 'power2.out' });
+    /* ── MAGNETIC ── (mobilde devre dışı) */
+    document.querySelectorAll('.magnetic').forEach(btn => {
+      btn.addEventListener('mousemove', e => {
+        const { left, top, width, height } = btn.getBoundingClientRect();
+        const x = (e.clientX - left - width  / 2) * .35;
+        const y = (e.clientY - top  - height / 2) * .35;
+        gsap.to(btn, { x, y, duration: .4, ease: 'power2.out' });
+      });
+      btn.addEventListener('mouseleave', () => {
+        gsap.to(btn, { x: 0, y: 0, duration: .6, ease: 'elastic.out(1, .5)' });
+      });
     });
-    btn.addEventListener('mouseleave', () => {
-      gsap.to(btn, { x: 0, y: 0, duration: .6, ease: 'elastic.out(1, .5)' });
-    });
-  });
+  }
 
   /* ── CUSTOM CURSOR + GLOW ── */
   if (window.matchMedia('(hover:hover) and (pointer:fine)').matches) {
@@ -842,10 +844,10 @@ window.addEventListener('DOMContentLoaded', () => {
      KATMAN 2 — Sinematik dokunuşlar
      ═══════════════════════════════════════════════════ */
 
-  /* ── FEATURED PROJECT — 3D Magnetic Tilt ── */
+  /* ── FEATURED PROJECT — 3D Magnetic Tilt ── (mobilde devre dışı) */
   const fpEl     = document.getElementById('featuredProject');
   const fpVisual = fpEl?.querySelector('.fp-visual');
-  if (fpEl && fpVisual) {
+  if (fpEl && fpVisual && !IS_MOBILE) {
     fpEl.addEventListener('mousemove', e => {
       const { left, top, width, height } = fpEl.getBoundingClientRect();
       const x = (e.clientX - left) / width  - 0.5;

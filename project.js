@@ -13,14 +13,18 @@ window.addEventListener('DOMContentLoaded', () => {
   const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (REDUCED_MOTION) document.documentElement.classList.add('reduced-motion');
 
+  /* ── MOBİL TESPİTİ ── Lenis ve ağır efektler mobilde kapatılır */
+  const IS_MOBILE = window.matchMedia('(max-width: 768px)').matches || 'ontouchstart' in window;
+  if (IS_MOBILE) document.documentElement.classList.add('is-mobile');
+
   /* ── 3 KATMANLI EASE SİSTEMİ ── */
   const EASE = { micro: 'power2.out', reveal: 'power3.out', cinematic: 'expo.out' };
   const DUR  = { micro: 0.30, reveal: 0.70, cinematic: 1.20 };
 
 
-  /* ── LENİS SMOOTH SCROLL + GSAP ENTEGRASYONU ── */
+  /* ── LENİS SMOOTH SCROLL + GSAP ENTEGRASYONU ── (mobilde devre dışı) */
   let lenis = null;
-  if (!REDUCED_MOTION && typeof Lenis !== 'undefined') lenis = new Lenis({
+  if (!REDUCED_MOTION && !IS_MOBILE && typeof Lenis !== 'undefined') lenis = new Lenis({
     duration: 0.85,
     easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
     smoothWheel: true,
