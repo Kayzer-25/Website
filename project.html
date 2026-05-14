@@ -91,97 +91,63 @@
   </div>
 </section>
 
-<!-- BÖLÜM 2 · BİNA AÇILARI -->
-<section class="views-section" id="viewsSection">
-  <div class="views-hdr">
-    <div class="views-hdr-left">
+<!-- BÖLÜM 2 · BİNA GÖRÜNÜMLERİ (GRID) -->
+<section class="views-grid-section" id="viewsSection">
+  <div class="container">
+    <div class="views-grid-header gs-section-head">
       <div class="section-tag">Bina Görünümleri</div>
-    </div>
-    <div class="views-hdr-right">
-      <div class="views-dots" id="viewsDots">
-        <button class="vdot active" data-i="0"></button>
-        <button class="vdot" data-i="1"></button>
-        <button class="vdot" data-i="2"></button>
-        <button class="vdot" data-i="3"></button>
-        <button class="vdot" data-i="4"></button>
-      </div>
-      <div class="views-counter">
-        <span id="vCurrent">01</span><span class="vc-sep">/</span><span>05</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="views-track" id="viewsTrack">
-
-    <!-- 01 · Ön Cephe Gündüz -->
-    <div class="view-panel active" data-idx="0">
-      <div class="vp-bg">
-        <img decoding="async" src="images/view-on-gunduz.webp" alt="Ön Cephe Gündüz" class="vp-photo" loading="lazy">
-      </div>
-      <div class="vp-info">
-        <div class="vpi-num">01</div>
-        <h3 class="vpi-title">Ön Cephe</h3>
-        <p class="vpi-desc">Ana giriş ve sokak cephesi. Yapının kimliğini yansıtan modern cam-alüminyum-doğaltaş kombine kaplama sistemi.</p>
-        <div class="vpi-tags"><span>Cam Cephe</span><span>Doğaltaş</span><span>Bahçeli Giriş</span></div>
-      </div>
+      <h2 class="section-title">Her Açıdan <span class="gradient-text">Estetik</span></h2>
+      <p class="section-desc">Modern mimari ve özgün cephe tasarımı — projenin tüm yönleri.</p>
     </div>
 
-    <!-- 02 · Arka Cephe Gündüz -->
-    <div class="view-panel" data-idx="1">
-      <div class="vp-bg">
-        <img decoding="async" src="images/view-arka-gunduz.webp" alt="Arka Cephe Gündüz" class="vp-photo" loading="lazy">
-      </div>
-      <div class="vp-info">
-        <div class="vpi-num">02</div>
-        <h3 class="vpi-title">Arka Cephe</h3>
-        <p class="vpi-desc">Yapının arka görünümü. Peyzajlı ortak bahçe alanı ve zemin kat dairelerine ait özel bahçe parselleri.</p>
-        <div class="vpi-tags"><span>Peyzajlı Bahçe</span><span>Özel Parsel</span><span>Sosyal Teras</span></div>
-      </div>
+    <div class="vg-grid">
+      <article class="vg-card vg-card-large gs-reveal" data-view-src="images/view-on-gunduz.webp">
+        <img decoding="async" loading="lazy" src="images/view-on-gunduz.webp" alt="Ön Cephe" class="vg-img">
+        <div class="vg-overlay">
+          <div class="vg-num">01</div>
+          <h3 class="vg-title">Ön Cephe</h3>
+          <div class="vg-tags"><span>Cam Cephe</span><span>Doğaltaş</span></div>
+        </div>
+        <div class="vg-zoom-icon">🔍</div>
+      </article>
+
+      <article class="vg-card gs-reveal" data-view-src="images/view-arka-gunduz.webp">
+        <img decoding="async" loading="lazy" src="images/view-arka-gunduz.webp" alt="Arka Cephe" class="vg-img">
+        <div class="vg-overlay">
+          <div class="vg-num">02</div>
+          <h3 class="vg-title">Arka Cephe</h3>
+        </div>
+        <div class="vg-zoom-icon">🔍</div>
+      </article>
+
+      <article class="vg-card gs-reveal" data-view-src="images/view-yan-gunduz.webp">
+        <img decoding="async" loading="lazy" src="images/view-yan-gunduz.webp" alt="Yan Cephe" class="vg-img">
+        <div class="vg-overlay">
+          <div class="vg-num">03</div>
+          <h3 class="vg-title">Yan Cephe</h3>
+        </div>
+        <div class="vg-zoom-icon">🔍</div>
+      </article>
+
+      <article class="vg-card gs-reveal" data-view-src="images/view-on-gunduz2.webp">
+        <img decoding="async" loading="lazy" src="images/view-on-gunduz2.webp" alt="Ön Cephe Geniş Açı" class="vg-img">
+        <div class="vg-overlay">
+          <div class="vg-num">04</div>
+          <h3 class="vg-title">Geniş Açı</h3>
+        </div>
+        <div class="vg-zoom-icon">🔍</div>
+      </article>
+
+      <article class="vg-card vg-card-large gs-reveal" data-view-src="images/view-gece.webp">
+        <img decoding="async" loading="lazy" src="images/view-gece.webp" alt="Gece Görünümü" class="vg-img">
+        <div class="vg-overlay">
+          <div class="vg-num">05</div>
+          <h3 class="vg-title">Gece Görünümü</h3>
+          <div class="vg-tags"><span>LED Cephe</span><span>Akıllı Aydınlatma</span></div>
+        </div>
+        <div class="vg-zoom-icon">🔍</div>
+      </article>
     </div>
-
-    <!-- 03 · Yan Cephe Gündüz -->
-    <div class="view-panel" data-idx="2">
-      <div class="vp-bg">
-        <img decoding="async" src="images/view-yan-gunduz.webp" alt="Yan Cephe Gündüz" class="vp-photo" loading="lazy">
-      </div>
-      <div class="vp-info">
-        <div class="vpi-num">03</div>
-        <h3 class="vpi-title">Yan Cephe</h3>
-        <p class="vpi-desc">Yapının yan görünümü. Balkon derinlikleri ve cephe hareketliliği bina kitlesine özgün bir karakter kazandırmaktadır.</p>
-        <div class="vpi-tags"><span>Derin Balkonlar</span><span>Cephe Ritmi</span><span>Isı Yalıtımı</span></div>
-      </div>
-    </div>
-
-    <!-- 04 · Ön Cephe Alternatif -->
-    <div class="view-panel" data-idx="3">
-      <div class="vp-bg">
-        <img decoding="async" src="images/view-on-gunduz2.webp" alt="Ön Cephe Alternatif" class="vp-photo" loading="lazy">
-      </div>
-      <div class="vp-info">
-        <div class="vpi-num">04</div>
-        <h3 class="vpi-title">Ön Cephe — Geniş Açı</h3>
-        <p class="vpi-desc">Geniş açıdan cephe görünümü. Bulvar üzerindeki konumuyla şehir siluetine önemli bir katkı sağlamaktadır.</p>
-        <div class="vpi-tags"><span>Bulvar Cephesi</span><span>Geniş Açı</span><span>Kentsel Doku</span></div>
-      </div>
-    </div>
-
-    <!-- 05 · Gece Görünümü -->
-    <div class="view-panel" data-idx="4">
-      <div class="vp-bg">
-        <img decoding="async" src="images/view-gece.webp" alt="Gece Görünümü" class="vp-photo" loading="lazy">
-      </div>
-      <div class="vp-info">
-        <div class="vpi-num">05</div>
-        <h3 class="vpi-title">Gece Görünümü</h3>
-        <p class="vpi-desc">Akıllı aydınlatma sistemi ile bina gece de dikkat çekici bir görünüme sahip. LED cephe bandı ile kentsel kimlik güçlendirilmiştir.</p>
-        <div class="vpi-tags"><span>LED Cephe Işığı</span><span>Akıllı Aydınlatma</span><span>Kentsel Tasarım</span></div>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="views-progress-bar">
-    <div class="vpb-fill" id="vpbFill"></div>
   </div>
 </section>
 
@@ -231,13 +197,12 @@
         </a>
       </div>
 
-      <!-- Sağ: Yakın kurumlar -->
+      <!-- Sağ: Yakın kurumlar (sade liste — sağlık, eğitim, ulaşım) -->
       <div class="location-pois gs-reveal">
         <div class="poi-group">
           <div class="poi-group-title">🏥 Sağlık</div>
           <div class="poi-item"><span class="poi-name">Çukurova Devlet Hastanesi</span><span class="poi-dist">5 dk</span></div>
           <div class="poi-item"><span class="poi-name">Huzurevleri Aile Sağlığı Merkezi</span><span class="poi-dist">3 dk</span></div>
-          <div class="poi-item"><span class="poi-name">Adana Şehir Hastanesi</span><span class="poi-dist">25 dk</span></div>
         </div>
         <div class="poi-group">
           <div class="poi-group-title">🎓 Eğitim</div>
@@ -249,13 +214,6 @@
           <div class="poi-group-title">🚗 Ulaşım</div>
           <div class="poi-item"><span class="poi-name">Huzurevi Metro İstasyonu</span><span class="poi-dist">Yürüme mesafesi</span></div>
           <div class="poi-item"><span class="poi-name">Şehir Merkezi (Seyhan)</span><span class="poi-dist">20 dk</span></div>
-          <div class="poi-item"><span class="poi-name">Adana Havalimanı</span><span class="poi-dist">28 dk</span></div>
-        </div>
-        <div class="poi-group">
-          <div class="poi-group-title">🛍️ Alışveriş & Yaşam</div>
-          <div class="poi-item"><span class="poi-name">Biçer AVM</span><span class="poi-dist">8 dk</span></div>
-          <div class="poi-item"><span class="poi-name">BİM / Migros</span><span class="poi-dist">3 dk</span></div>
-          <div class="poi-item"><span class="poi-name">M1 Adana AVM</span><span class="poi-dist">18 dk</span></div>
         </div>
       </div>
 
