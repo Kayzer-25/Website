@@ -23,23 +23,8 @@ window.addEventListener('DOMContentLoaded', () => {
   const DUR  = { micro: 0.30, reveal: 0.70, cinematic: 1.20 };
 
 
-  /* ── LENİS SMOOTH SCROLL + GSAP ENTEGRASYONU ── (mobilde devre dışı) */
+  /* ── LENİS DEVRE DIŞI ── Native scroll daha akıcı, ScrollTrigger çakışmaz */
   let lenis = null;
-  if (!REDUCED_MOTION && !IS_MOBILE && typeof Lenis !== 'undefined') lenis = new Lenis({
-    duration: 0.85,
-    easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-    smoothWheel: true,
-    wheelMultiplier: 1,
-    touchMultiplier: 1.5,
-    infinite: false,
-  });
-
-  if (lenis) {
-    lenis.on('scroll', ScrollTrigger.update);
-    gsap.ticker.add(time => lenis.raf(time * 1000));
-    gsap.ticker.lagSmoothing(0);
-    window._lenis = lenis;
-  }
 
   /* ── SAYFA GEÇİŞ PERDESİ — AÇILIŞ ── */
   const ptCurtain = document.getElementById('ptCurtain');
@@ -107,17 +92,7 @@ window.addEventListener('DOMContentLoaded', () => {
     .from('.ph-badge-item',{ opacity: 0, y: 14,     duration: .35, stagger: .055 }, .55)
     .from('#phScrollCue',  { opacity: 0, y: 8,      duration: .35 }, .78);
 
-  /* ── HERO PARALLAX ── */
-  gsap.to('#phBuildingWrap', {
-    scrollTrigger: { trigger: '#phHero', scrub: 1.5 },
-    yPercent: 18, ease: 'none',
-  });
-
-  /* ── HERO OVERLAY ── */
-  gsap.to('.ph-overlay', {
-    scrollTrigger: { trigger: '#phHero', start: 'top top', end: 'bottom top', scrub: true },
-    opacity: .95, ease: 'none',
-  });
+  /* ── HERO PARALLAX & OVERLAY ── (scrub kaldırıldı, kasma sebebiydi) */
 
   /* ── BİNA GÖRÜNÜMLERİ GRID ── tıklayınca lightbox aç */
   const vgCards = document.querySelectorAll('.vg-card');
@@ -336,17 +311,7 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  /* ── CURSOR GLOW ── */
-  if (window.matchMedia('(hover:hover) and (pointer:fine)').matches) {
-    const glow = document.createElement('div');
-    glow.style.cssText = `position:fixed;width:500px;height:500px;pointer-events:none;border-radius:50%;
-      background:radial-gradient(circle,rgba(191,154,80,0.04) 0%,transparent 68%);
-      transform:translate(-50%,-50%);z-index:0;`;
-    document.body.appendChild(glow);
-    let mx = 0, my = 0;
-    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; }, { passive: true });
-    gsap.ticker.add(() => gsap.set(glow, { left: mx, top: my }));
-  }
+  /* ── CURSOR GLOW kaldırıldı — her frame DOM güncellemesi kasmaya yol açıyordu ── */
 
   /* ── PLAN LIGHTBOX (zoom + pan) ── */
   const lightbox    = document.getElementById('planLightbox');

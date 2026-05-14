@@ -96,12 +96,11 @@
 }
 .ph-scroll-cue .scroll-line { width: 48px; height: 1px; background: linear-gradient(to right, var(--gold), transparent); }
 
-/* ── VIEWS SECTION — Carousel (no scroll-hijack) ── */
-.views-section {
-  background: var(--bg-navy);
-  position: relative;
-  height: 100vh;
-  overflow: hidden;
+/* ── ESKİ VIEWS SECTION CSS — Yeni grid yapısı kullanıldığı için devre dışı
+   (.views-section class'ı artık HTML'de yok, ama bu rule'lar başka bir element'e
+   yanlışlıkla uygulanmasın diye yorum satırına alındı) */
+.views-section--legacy-disabled {
+  /* burası boş — eski rule'lar artık yok */
 }
 
 /* Header bar */
@@ -338,7 +337,7 @@
 }
 .pb-layout-left .pb-image-wrap { order: -1; }
 /* Görsel kutusunu makul boyutta tut — sayfayı boğmasın */
-.pb-image-wrap { max-width: 380px; margin: 0 auto; width: 100%; }
+.pb-image-wrap { max-width: 500px; margin: 0 auto; width: 100%; }
 .pb-eyebrow { font-size: 12px; font-weight: 700; color: var(--gold); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 14px; }
 .pb-title { font-family: var(--font-display, 'DM Serif Display', serif); font-size: clamp(34px, 4vw, 54px); font-weight: 400; letter-spacing: -1.5px; line-height: 1.05; margin-bottom: 20px; color: var(--text); }
 .pb-desc { font-size: 16px; color: var(--text-2); line-height: 1.78; margin-bottom: 28px; }
@@ -355,12 +354,12 @@
   border-radius: 14px; overflow: hidden;
   box-shadow: 0 14px 42px rgba(16,13,9,0.1), 0 0 0 1px rgba(16,13,9,0.06);
   background: #f5f0e8;
-  max-height: 460px;
+  max-height: 580px;
   display: flex; align-items: center; justify-content: center;
 }
 .pb-img {
   width: 100%; height: auto;
-  max-height: 460px;
+  max-height: 580px;
   object-fit: contain;
   display: block; border-radius: 14px;
   transition: transform .6s ease;
@@ -633,7 +632,8 @@
 .views-grid-header .section-title { margin-bottom: 14px; }
 .views-grid-header .section-desc { margin: 0 auto; }
 
-/* 3-sütunlu asimetrik grid: 2 büyük (geniş) + 3 küçük kare */
+/* Temiz grid: ilk 3 kart üst sırada, son 2 kart alt sırada (3+3 col)
+   5 kart = 2 sıra balanced layout */
 .vg-grid {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
@@ -644,7 +644,7 @@
 }
 .vg-card {
   grid-column: span 2;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 4 / 3;
   position: relative;
   border-radius: 14px;
   overflow: hidden;
@@ -653,11 +653,14 @@
   box-shadow: 0 6px 24px rgba(16,13,9,0.08);
   transition: transform .5s var(--ease-out), box-shadow .5s var(--ease-out);
 }
-/* 1. ve son kart geniş (3 sütun) */
-.vg-card-large {
+/* Alt sıradaki 2 kart daha geniş (3 sütun = 4'üncü ve 5'inci) */
+.vg-card:nth-child(4),
+.vg-card:nth-child(5) {
   grid-column: span 3;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 16 / 10;
 }
+/* vg-card-large class artık kullanılmıyor ama uyumluluk için tanımlı kalsın */
+.vg-card-large { /* yok sayılır, nth-child öncelikli */ }
 .vg-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 18px 48px rgba(16,13,9,0.16);
