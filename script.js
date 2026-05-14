@@ -132,9 +132,14 @@ window.addEventListener('DOMContentLoaded', () => {
   const isHint        = document.getElementById('isHint');
   const heroBgLogoImg = document.getElementById('heroBgLogoImg');
 
-  /* ── HASH BYPASS ── Eğer URL'de #contact gibi bir hash varsa intro'yu atla */
+  /* ── HASH BYPASS + REFRESH BYPASS ──
+     - Hash varsa (#contact gibi) intro atlanır
+     - Sayfa yenilenirse (refresh) intro atlanır → direkt hero animasyonu görür */
   const initialHash = window.location.hash;
-  const skipIntro = !!initialHash && document.getElementById(initialHash.slice(1));
+  const isReload = (performance.getEntriesByType?.('navigation')?.[0]?.type === 'reload')
+    || (performance.navigation?.type === 1);
+  const skipIntro = isReload
+    || (!!initialHash && document.getElementById(initialHash.slice(1)));
 
   if (skipIntro && introScreen) {
     /* Intro'yu hiç göstermeden gizle */
