@@ -77,10 +77,13 @@ const projects = {
   },
 };
 
-/* ── SCROLL RESTORATION ── */
+/* ── SCROLL RESTORATION ── Refresh'te her zaman en üste */
 if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 document.documentElement.scrollTop = 0;
 document.body.scrollTop = 0;
+window.scrollTo(0, 0);
+/* Sayfa kapanmadan da scroll'u sıfırla — bazı tarayıcılar bu olmadan eski pozisyonu hatırlıyor */
+window.addEventListener('beforeunload', () => window.scrollTo(0, 0));
 
 window.addEventListener('DOMContentLoaded', () => {
   gsap.registerPlugin(ScrollTrigger);
