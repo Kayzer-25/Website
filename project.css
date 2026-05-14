@@ -490,15 +490,42 @@
   .vh-dot { width: 24px; height: 3px; }
 
   /* Plan blocks — kompakt + okunabilir */
-  .plan-block { padding: 64px 0; }
-  .plans-intro { padding: 80px 20px 56px; }
-  .pb-layout { gap: 36px; }
-  .pb-title { font-size: clamp(28px, 7vw, 38px); margin-bottom: 14px; }
-  .pb-desc { font-size: 15px; line-height: 1.65; margin-bottom: 22px; }
-  .pb-image-inner { border-radius: 14px; }
-  .pb-img { border-radius: 14px; }
-  .pb-image-label { font-size: 10px; padding: 7px 16px; letter-spacing: 2px; bottom: -12px; }
-  .pb-room { padding: 12px 14px; font-size: 13.5px; min-height: 44px; }
+  .plan-block { padding: 48px 0; }
+  .plans-intro { padding: 40px 20px 28px; }
+  .pb-layout {
+    gap: 28px;
+    padding: 0 16px !important;
+    max-width: 100%;
+  }
+  .pb-title { font-size: clamp(26px, 7vw, 34px); margin-bottom: 12px; line-height: 1.1; }
+  .pb-desc { font-size: 14.5px; line-height: 1.6; margin-bottom: 18px; }
+  .pb-eyebrow { font-size: 10.5px; letter-spacing: 1.8px; margin-bottom: 10px; }
+  /* Plan görseli mobilde daha makul */
+  .pb-image-wrap { max-width: 100% !important; }
+  .pb-image-inner {
+    border-radius: 12px;
+    max-height: 420px !important;
+  }
+  .pb-img {
+    border-radius: 12px;
+    max-height: 420px !important;
+  }
+  .pb-image-label { font-size: 10px; padding: 7px 14px; letter-spacing: 2px; bottom: -10px; }
+  /* Oda tipleri 2 sütun (1 sütun çok dağınık görünüyordu) */
+  .pb-rooms {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 8px !important;
+    margin-bottom: 22px !important;
+  }
+  .pb-room {
+    padding: 10px 12px;
+    font-size: 12.5px;
+    min-height: 42px;
+    gap: 8px;
+  }
+  .pb-room span { font-size: 16px; }
+  /* "Planı Büyüt" butonu tam genişlik */
+  .pb-content .btn { width: 100%; justify-content: center; }
 
   /* Project specs */
   .ps-grid { grid-template-columns: 1fr 1fr; }
@@ -733,17 +760,29 @@
 
 /* Mobile */
 @media (max-width: 640px) {
-  .views-grid-section { padding: 56px 0; }
-  .views-grid-header { margin-bottom: 32px; }
+  .views-grid-section { padding: 48px 0; }
+  .views-grid-header { margin-bottom: 24px; }
   .vg-grid {
     grid-template-columns: 1fr 1fr;
     gap: 8px;
-    padding: 0 16px;
+    padding: 0 14px;
+    max-width: 100%;
   }
-  .vg-card { grid-column: span 1; }
-  .vg-card-large { grid-column: span 2; aspect-ratio: 16/10; }
+  /* Mobilde tüm kartlar eşit span — desktop nth-child kuralı override edilir */
+  .vg-card,
+  .vg-card:nth-child(4),
+  .vg-card:nth-child(5) {
+    grid-column: span 1 !important;
+    aspect-ratio: 1 / 1 !important;
+  }
+  /* İlk ve son kart full-width (daha vurgulu) */
+  .vg-card:nth-child(1),
+  .vg-card:nth-child(5) {
+    grid-column: 1 / -1 !important;
+    aspect-ratio: 16 / 10 !important;
+  }
   .vg-overlay { padding: 10px 12px; }
-  .vg-title { font-size: 14px; }
+  .vg-title { font-size: 14px; line-height: 1.15; margin-bottom: 2px; }
   .vg-tags { display: none; }
   .vg-num { font-size: 9px; }
   .vg-zoom-icon {
