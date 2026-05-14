@@ -32,41 +32,19 @@
   <!-- Font yükleme: display=swap zaten yapıyor, ek olarak preload -->
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
-  <!-- Sayfa ilk render'da scroll'u kilitle — JS yüklenmeden önce -->
-  <style id="scroll-lock">html,body{overflow:hidden !important;}</style>
+  <!-- FOUC önleme — hero metni JS animasyonla gelir, statik flash olmasın -->
+  <style id="hero-fouc">
+    #heroLine1, #heroLine2, #heroLine3 { opacity: 0; }
+  </style>
+  <!-- Refresh'te en üste git — tarayıcı scroll restorasyonunu engelle -->
+  <script>
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    window.addEventListener('beforeunload', () => window.scrollTo(0, 0));
+  </script>
 </head>
 <body>
 
-  <!-- ===== INTRO SCREEN ===== -->
-  <div class="intro-screen" id="introScreen">
-    <!-- Arka plan parıltı -->
-    <div class="is-glow"></div>
-
-    <!-- Logo -->
-    <div class="is-logo-wrap" id="isLogo">
-      <img decoding="async" src="logo.webp" alt="Alptekin İnşaat" class="is-logo-img">
-    </div>
-
-    <!-- Marka adı -->
-    <div class="is-brand" id="isBrand">
-      <span class="is-name" id="isName">ALPTEKİN</span>
-      <span class="is-sub"  id="isSub">İNŞAAT</span>
-    </div>
-
-    <!-- İnce ayraç çizgisi -->
-    <div class="is-rule" id="isRule"></div>
-
-    <!-- Alt hint -->
-    <div class="is-hint" id="isHint">
-      <span>Keşfetmek için kaydırın</span>
-      <div class="is-hint-arrow">
-        <svg width="12" height="20" viewBox="0 0 12 20" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round">
-          <line x1="6" y1="0" x2="6" y2="14"/>
-          <polyline points="2,10 6,14 10,10"/>
-        </svg>
-      </div>
-    </div>
-  </div>
+  <!-- Intro screen kaldırıldı — site direkt hero ile açılır -->
 
   <!-- ===== SCROLL PROGRESS ===== -->
   <div class="scroll-progress" id="scrollProgress"></div>
