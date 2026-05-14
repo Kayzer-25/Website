@@ -120,30 +120,25 @@ window.addEventListener('DOMContentLoaded', () => {
   let lenis = null;
 
 
-  /* ── INTRO SCREEN KALDIRILDI ── Direkt hero ile başla, animasyonla aç */
-  const introScreen   = null;
-  const isLogo        = null;
-  const isName        = null;
-  const isSub         = null;
-  const isRule        = null;
-  const isHint        = null;
+  /* ── INTRO SCREEN ── */
+  const introScreen   = document.getElementById('introScreen');
+  const isLogo        = document.getElementById('isLogo');
+  const isName        = document.getElementById('isName');
+  const isSub         = document.getElementById('isSub');
+  const isRule        = document.getElementById('isRule');
+  const isHint        = document.getElementById('isHint');
   const heroBgLogoImg = document.getElementById('heroBgLogoImg');
 
-  /* Refresh'te en üste git — tarayıcı scroll restore'unu önle */
-  document.documentElement.scrollTop = 0;
-  document.body.scrollTop = 0;
-  window.scrollTo(0, 0);
-
+  /* ── HASH BYPASS ── Eğer URL'de #contact gibi bir hash varsa intro'yu atla */
   const initialHash = window.location.hash;
-  const skipIntro = true; /* Intro yok — her zaman doğrudan hero göster */
+  const skipIntro = !!initialHash && document.getElementById(initialHash.slice(1));
 
-  if (skipIntro) {
-    /* Hero animasyonunu hemen başlat */
+  if (skipIntro && introScreen) {
+    /* Intro'yu hiç göstermeden gizle */
+    introScreen.style.display = 'none';
     if (heroBgLogoImg) heroBgLogoImg.style.opacity = '0.055';
-    /* FOUC önleyici opacity:0'u kaldır — animasyon kontrolü ele alacak */
-    document.getElementById('hero-fouc')?.remove();
   } else {
-  /* — eski intro logic — */
+  /* Scroll kilitli — intro oynarken kaydırmayı engelle */
   document.body.style.overflow = 'hidden';
 
   /* Başlangıç state'leri */
@@ -305,14 +300,14 @@ window.addEventListener('DOMContentLoaded', () => {
     const line2 = document.getElementById('heroLine2');
 
     gsap.set([...chars1, ...chars3], { yPercent: 110, opacity: 0 });
-    gsap.set(line2, { yPercent: 110, opacity: 0 }); /* FOUC fix: CSS de opacity:0 yapıyor */
+    gsap.set(line2, { yPercent: 110 }); /* reveal-line overflow:hidden ile klipler */
 
     const heroTl = gsap.timeline({ defaults: { ease: EASE.cinematic } });
     heroTl
       .from('#heroSymbol', { opacity: 0, scale: 0.75, duration: 0.6, ease: 'back.out(1.4)' }, 0)
       .from('#heroBadge',  { opacity: 0, y: 12, scale: 0.97, duration: 0.45, ease: EASE.reveal }, 0.25)
       .to(chars1, { yPercent: 0, opacity: 1, duration: 0.65, stagger: 0.018 }, 0.38)
-      .to(line2,  { yPercent: 0, opacity: 1, duration: 0.65, ease: EASE.cinematic }, 0.55)
+      .to(line2,  { yPercent: 0, duration: 0.65, ease: EASE.cinematic }, 0.55)
       .to(chars3, { yPercent: 0, opacity: 1, duration: 0.65, stagger: 0.016 }, 0.72)
       .from('#heroDesc',   { opacity: 0, y: 18, duration: 0.5,  ease: EASE.reveal }, 0.95)
       .from('#heroBtns',   { opacity: 0, y: 14, duration: 0.4,  ease: EASE.reveal }, 1.10)
