@@ -462,7 +462,11 @@ window.addEventListener('DOMContentLoaded', () => {
   hamburger.addEventListener('click', () => {
     mobileMenu.classList.add('open');
     document.body.style.overflow = 'hidden';
-    gsap.from('.mobile-link', { opacity:0, y:20, stagger:.08, duration:.4, ease:'power2.out' });
+    /* Sadece y translate animasyonu — opacity'ye dokunma, soluk kalma riski yok */
+    gsap.from('.mobile-link', {
+      y: 14, duration: 0.35, ease: 'power2.out', stagger: 0.05,
+      clearProps: 'all', /* animasyon biter bitmez stilleri temizle */
+    });
   });
   function closeMobile() { mobileMenu.classList.remove('open'); document.body.style.overflow = ''; }
   mobileClose.addEventListener('click', closeMobile);
