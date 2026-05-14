@@ -34,6 +34,20 @@
   <link rel="stylesheet" href="style.css" />
   <!-- Sayfa ilk render'da scroll'u kilitle — JS yüklenmeden önce -->
   <style id="scroll-lock">html,body{overflow:hidden !important;}</style>
+  <!-- Agresif scroll-to-top: tarayıcı scroll'u geri yüklemeden müdahale et -->
+  <script>
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    window.scrollTo(0, 0);
+    window.addEventListener('beforeunload', function() { window.scrollTo(0, 0); });
+    /* pageshow bfcache restore'unu da yakalar (Safari/Firefox geri tuşu) */
+    window.addEventListener('pageshow', function(e) {
+      if (e.persisted || performance.getEntriesByType('navigation')[0]?.type === 'reload') {
+        window.scrollTo(0, 0);
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+      }
+    });
+  </script>
 </head>
 <body>
 

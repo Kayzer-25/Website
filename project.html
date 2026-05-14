@@ -27,6 +27,19 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Space+Grotesk:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="style.css"/>
   <link rel="stylesheet" href="project.css"/>
+  <!-- Agresif scroll-to-top: tarayıcı scroll'u geri yüklemeden önce müdahale et -->
+  <script>
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    window.scrollTo(0, 0);
+    window.addEventListener('beforeunload', function() { window.scrollTo(0, 0); });
+    window.addEventListener('pageshow', function(e) {
+      if (e.persisted || performance.getEntriesByType('navigation')[0]?.type === 'reload') {
+        window.scrollTo(0, 0);
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+      }
+    });
+  </script>
 </head>
 <body>
 
