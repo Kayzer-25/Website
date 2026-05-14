@@ -322,7 +322,7 @@
 
 /* ── FLOOR PLANS ── */
 .plans-section { background: var(--bg); }
-.plans-intro { text-align: center; padding: 120px 28px 80px; max-width: 700px; margin: 0 auto; }
+.plans-intro { text-align: center; padding: 56px 28px 36px; max-width: 700px; margin: 0 auto; }
 .plans-intro .section-desc { margin: 0 auto; }
 .plan-block { padding: 70px 0; position: relative; overflow: hidden; }
 .plan-block-alt { background: var(--bg-cream); }

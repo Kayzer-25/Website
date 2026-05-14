@@ -114,10 +114,11 @@ window.addEventListener('DOMContentLoaded', () => {
         }
       });
     });
-    /* Reveal animasyonu */
+    /* Reveal animasyonu — immediateRender:false ile trigger öncesi görünür */
     gsap.from(vgCards, {
-      scrollTrigger: { trigger: '#viewsSection', start: 'top 80%', once: true },
-      opacity: 0, y: 32, duration: 0.55, ease: 'power3.out', stagger: 0.08,
+      scrollTrigger: { trigger: '#viewsSection', start: 'top 85%', once: true },
+      opacity: 0, y: 24, duration: 0.5, ease: 'power3.out', stagger: 0.06,
+      immediateRender: false,
     });
   }
 

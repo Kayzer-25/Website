@@ -415,12 +415,14 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  /* ── SERVICES GRID — 2x2 reveal animasyonu ── */
+  /* ── SERVICES GRID — 2x2 reveal animasyonu ──
+     immediateRender:false önemli! Trigger fire etmeden kartlar gizli kalmaz */
   const sgCards = document.querySelectorAll('.sg-card');
   if (sgCards.length) {
     gsap.from(sgCards, {
-      scrollTrigger: { trigger: '.services-grid', start: 'top 80%', once: true },
-      opacity: 0, y: 36, duration: 0.55, ease: 'power3.out', stagger: 0.1,
+      scrollTrigger: { trigger: '.services-grid', start: 'top 85%', once: true },
+      opacity: 0, y: 28, duration: 0.5, ease: 'power3.out', stagger: 0.08,
+      immediateRender: false, /* trigger fire edene kadar görünür kalsın */
     });
     /* Cursor hover */
     sgCards.forEach(el => {
